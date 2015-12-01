@@ -45,7 +45,8 @@ web-based REST API.
 
 ## Controller
 
-* mini object
+### record object
+* mini
   - Name
   - Army
   - Unit type (e.g. hero, core, etc.)
@@ -56,19 +57,21 @@ web-based REST API.
   - Notes
   - Image of model
   - methods: add, edit, delete
-* paint object
+* paint
   - Name
   - Colour
   - Company
   - Notes
   - methods: add, edit, delete
-* book object
+* book
   - Title
   - Army
   - Edition
   - Year
   - Notes
   - methods: add, edit, delete
+
+### Features
 * Load/Download DB
 * Sync local DB with remote
 * Add/edit list of companies, systems, armies, unit types, etc.
