@@ -68,8 +68,15 @@ web-based REST API.
   - Army
   - Edition
   - Year
+  - Company
   - Notes
   - methods: add, edit, delete
+* game (aka board games)
+  - Title
+  - Company
+  - Number of players
+  - Time to play
+  - Age range
 
 ### Features
 * Load/Download DB
