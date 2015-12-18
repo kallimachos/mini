@@ -1,8 +1,8 @@
-#!/bin/python
+#!/bin/python3
 
 from distutils.core import setup
 
-setup(name='source',
+setup(name='mini',
       version='1.0',
-      py_modules=['source'],
+      py_modules=['mini'],
       )

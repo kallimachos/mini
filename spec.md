@@ -7,7 +7,6 @@ web-based REST API.
 ## Language
 
 * Python 3.4
-* Python 2.7 compatible if possible
 
 ## Testing, logging, and configuration
 
@@ -34,16 +33,20 @@ web-based REST API.
 
 ## Model
 
-* SQLite
+* model.py
+* collection.sqlite
 
 ## View
 
-* CLI - argparse
-* GUI - tkinter
-* Web - HTML, CSS, mobile-friendly
+* cli.py - argparse
+* gui.py - tkinter
+* web.py - HTML, CSS, mobile-friendly
 * Android
 
 ## Controller
+
+* controller.py
+* REST API (bottle)
 
 ### record object
 * mini
@@ -77,6 +80,7 @@ web-based REST API.
   - Number of players
   - Time to play
   - Age range
+  - methods: add, edit, delete
 
 ### Features
 * Load/Download DB
