@@ -12,6 +12,7 @@ web-based REST API.
 
 * tox
 * pytest
+* pytest-cov - add badge to README based on tests
 * flake8
 * logging
 * configparser

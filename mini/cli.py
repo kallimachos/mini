@@ -13,9 +13,9 @@ def checkresponse(url):
         return(1)
 
 
-def loadConfig():
+def loadConfig(configfile):
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read(configfile)
     protocol = config['DEFAULT']['protocol']
     host = config['DEFAULT']['host']
     port = config['DEFAULT']['port']
@@ -26,5 +26,6 @@ def loadConfig():
 
 
 if __name__ == '__main__':
-    INDEX = loadConfig()['indexURL']
-    print(checkresponse(INDEX))
+    config = loadConfig('config.ini')
+    index = config['DEFAULT']['indexURL']
+    print(checkresponse(index))

@@ -15,6 +15,11 @@ def index():
 
 @route('/test')
 def test():
+    '''
+    >>> test()
+    '<h1>Test</h1>'
+    >>>
+    '''
     return('<h1>Test</h1>')
 
 
@@ -24,6 +29,11 @@ def helloname(name):
 
 
 def checkresponse(url):
+    '''
+    >>> checkresponse('http://localhost:8080')
+    200
+    >>>
+    '''
     try:
         r = requests.get(url)
         return(r.status_code)
@@ -32,9 +42,9 @@ def checkresponse(url):
         return(1)
 
 
-def loadConfig():
+def loadConfig(configfile):
     config = configparser.ConfigParser()
-    config.read('config.ini')
+    config.read(configfile)
     protocol = config['DEFAULT']['protocol']
     host = config['DEFAULT']['host']
     port = config['DEFAULT']['port']
@@ -45,5 +55,5 @@ def loadConfig():
 
 
 if __name__ == '__main__':
-    config = loadConfig()
+    config = loadConfig('config.ini')
     run(host=config['host'], port=config['port'], reloader=True)
