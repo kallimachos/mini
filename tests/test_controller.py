@@ -1,10 +1,10 @@
 #!/bin/python3
 
 import controller
-import conf
+import gestalt
 
 configfile = 'tests/config4tests.ini'
-index = conf.LoadConfig(configfile).indexURL
+index = gestalt.LoadConfig(configfile).indexURL
 
 
 def test_index():

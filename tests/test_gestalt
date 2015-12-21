@@ -1,12 +1,12 @@
 #!/bin/python3
 
-import conf
+import gestalt
 
 configfile = 'tests/config4tests.ini'
 
 
 def test_loadConfig():
-    settings = conf.LoadConfig(configfile)
+    settings = gestalt.LoadConfig(configfile)
     assert settings.protocol == 'http'
     assert settings.host == 'localhost'
     assert settings.port == '8080'

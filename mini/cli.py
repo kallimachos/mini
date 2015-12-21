@@ -1,6 +1,6 @@
 #!/bin/python3
 
-import conf
+import gestalt
 import requests
 
 
@@ -14,5 +14,5 @@ def checkresponse(url):
 
 
 if __name__ == '__main__':
-    index = conf.LoadConfig('config.ini').indexURL
+    index = gestalt.LoadConfig('config.ini').indexURL
     print(checkresponse(index))

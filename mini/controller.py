@@ -1,6 +1,6 @@
 #!/bin/python3
 
-import conf
+import gestalt
 import requests
 from bottle import route, run, template, debug, TEMPLATE_PATH
 
@@ -32,5 +32,5 @@ def checkresponse(url):
 
 
 if __name__ == '__main__':
-    settings = conf.LoadConfig('config.ini')
+    settings = gestalt.LoadConfig('config.ini')
     run(host=settings.host, port=settings.port, reloader=True)
