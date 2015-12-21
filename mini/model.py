@@ -1,6 +1,6 @@
 #!/bin/python3
 
-import configparser
+import conf
 import requests
 
 
@@ -13,19 +13,6 @@ def checkresponse(url):
         return(1)
 
 
-def loadConfig(configfile):
-    config = configparser.ConfigParser()
-    config.read(configfile)
-    protocol = config['DEFAULT']['protocol']
-    host = config['DEFAULT']['host']
-    port = config['DEFAULT']['port']
-    indexURL = protocol + '://' + host + ':' + port + '/'
-    settings = {'protocol': protocol, 'host': host, 'port': port,
-                'indexURL': indexURL}
-    return(settings)
-
-
 if __name__ == '__main__':
-    config = loadConfig('config.ini')
-    index = config['DEFAULT']['indexURL']
+    index = conf.LoadConfig('config.ini').indexURL
     print(checkresponse(index))

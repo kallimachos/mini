@@ -1,9 +1,10 @@
 #!/bin/python3
 
 import controller
+import conf
 
 configfile = 'tests/config4tests.ini'
-INDEX = controller.loadConfig(configfile)['indexURL']
+index = conf.LoadConfig(configfile).indexURL
 
 
 def test_test():
@@ -11,16 +12,8 @@ def test_test():
 
 
 def test_checkresponse():
-    assert controller.checkresponse(INDEX) == 200
+    assert controller.checkresponse(index) == 200
 
 
 def test_helloname():
     assert True is True
-
-
-def test_loadConfig():
-    settings = controller.loadConfig(configfile)
-    assert settings['protocol'] == 'http'
-    assert settings['host'] == 'localhost'
-    assert settings['port'] == '8080'
-    assert settings['indexURL'] == 'http://localhost:8080/'
