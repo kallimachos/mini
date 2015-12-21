@@ -2,7 +2,7 @@ language: python
 python:
   - "3.4"
 install:
-  - pip install tox
+  - pip install tox, requests, bottle
 script:
   - python mini/controller.py
   - tox
