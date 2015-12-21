@@ -1,4 +1,6 @@
-# mini
+====
+mini
+====
 
 [![Build Status](https://travis-ci.org/kallimachos/mini.svg?branch=master)](https://travis-ci.org/kallimachos/mini)
 
