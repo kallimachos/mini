@@ -2,7 +2,10 @@
 
 import conf
 import requests
-from bottle import route, run, template, debug
+from bottle import route, run, template, debug, TEMPLATE_PATH
+
+# append to bottle.TEMPLATE_PATH so views are correctly found by pytest
+TEMPLATE_PATH.append('mini/views/')
 
 # set debug(True) for testing
 debug(False)
@@ -10,17 +13,8 @@ debug(False)
 
 @route('/')
 def index():
+    print(TEMPLATE_PATH)
     return(template('index'))
-
-
-@route('/test')
-def test():
-    '''
-    >>> test()
-    '<h1>Test</h1>'
-    >>>
-    '''
-    return('<h1>Test</h1>')
 
 
 @route('/hello/<name>')
@@ -29,11 +23,6 @@ def helloname(name):
 
 
 def checkresponse(url):
-    '''
-    >>> checkresponse('http://localhost:8080')
-    200
-    >>>
-    '''
     try:
         r = requests.get(url)
         return(r.status_code)

@@ -9,3 +9,4 @@ index = conf.LoadConfig(configfile).indexURL
 
 def test_checkresponse():
     assert gui.checkresponse(index) == 200
+    assert gui.checkresponse('failURL') == 1

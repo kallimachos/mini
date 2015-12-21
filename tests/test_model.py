@@ -9,3 +9,4 @@ index = conf.LoadConfig(configfile).indexURL
 
 def test_checkresponse():
     assert model.checkresponse(index) == 200
+    assert model.checkresponse('failURL') == 1
