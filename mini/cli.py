@@ -1,12 +1,13 @@
 #!/bin/python3
+"""CLI client for interacting with the mini REST API."""
 
 import gestalt
 import requests
 
 
 def hi(firstname, lastname):
-    '''
-    This function returns a greeting to the named person.
+    """
+    Return a greeting to the named person.
 
     :param firstname: first name
     :param lastname: last name
@@ -18,13 +19,13 @@ def hi(firstname, lastname):
 
         >>> hi('Brian', 'Moss')
         'Hi Brian Moss!'
-    '''
-
+    """
     response = "Hi " + firstname + " " + lastname + "!"
     return(response)
 
 
 def checkresponse(url):
+    """Confirm connection to the server."""
     try:
         r = requests.get(url)
         return(r.status_code)

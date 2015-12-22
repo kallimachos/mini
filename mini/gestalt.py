@@ -1,4 +1,5 @@
 #!/bin/python3
+"""Utility for loading configuration."""
 
 import requests
 try:
@@ -14,7 +15,10 @@ except:
 
 
 class LoadConfig():
+    """Expose configuration values from config file."""
+
     def __init__(self, configfile):
+        """Read config file and set object values."""
         config = configparser.ConfigParser()
         config.read(configfile)
         protocol = config['DEFAULT']['protocol']
@@ -31,6 +35,7 @@ class LoadConfig():
 
 
 def checkresponse(url):
+    """Confirm connection to the server."""
     try:
         r = requests.get(url)
         return(r.status_code)

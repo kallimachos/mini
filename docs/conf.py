@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Sphinx conf file for mini."""
+
 # -*- coding: utf-8 -*-
 #
 # Mini documentation build configuration file, created by

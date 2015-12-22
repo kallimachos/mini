@@ -1,4 +1,5 @@
 #!/bin/python3
+"""Controller logic for mini."""
 
 import gestalt
 import requests
@@ -13,15 +14,18 @@ debug(False)
 
 @route('/')
 def index():
+    """Return index template."""
     return(template('index'))
 
 
 @route('/hello/<name>')
 def helloname(name):
+    """Return hello_name template for testing."""
     return(template('hello_name', name=name))
 
 
 def checkresponse(url):
+    """Confirm connection to the server."""
     try:
         r = requests.get(url)
         return(r.status_code)

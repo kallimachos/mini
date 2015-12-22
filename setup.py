@@ -1,4 +1,5 @@
 #!/bin/python3
+"""Setup file for mini."""
 
 from distutils.core import setup
 

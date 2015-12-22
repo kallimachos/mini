@@ -1,10 +1,12 @@
 #!/bin/python3
+"""Model for mini."""
 
 import gestalt
 import requests
 
 
 def checkresponse(url):
+    """Confirm connection to the server."""
     try:
         r = requests.get(url)
         return(r.status_code)
