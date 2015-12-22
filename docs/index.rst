@@ -8,11 +8,12 @@ Contents:
    :maxdepth: 2
 
    spec.rst
+   api.rst
+   cli.rst
+   gui.rst
+   controller.rst
+   model.rst
+   gestalt.rst
 
 
-Indices and tables
-------------------
-
-* :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`

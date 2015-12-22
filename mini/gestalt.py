@@ -1,6 +1,9 @@
 #!/bin/python3
 
-import configparser
+try:
+    import configparser
+except:
+    import ConfigParser as configparser
 
 
 class LoadConfig():

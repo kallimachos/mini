@@ -1,14 +1,13 @@
-=============================
-Mini collection specification
-=============================
+=============
+Specification
+=============
 
-An application for recording a collection of miniature figures from different
-systems and companies. Local clients sync with the remote server through a
-web-based REST API.
+An application for recording a collection of miniature figures, books, and
+games from different systems and companies. Local clients sync with the remote
+server through a web-based REST API.
 
 Language
 --------
-
 - Python 3.4
 
 
@@ -33,8 +32,8 @@ Version control and CI
 Documentation
 -------------
 
-- Swagger API docs
-- Markdown docs
+- RST
+- Sphinx autodoc
 
 
 Hosting
@@ -69,6 +68,7 @@ Controller
 record object
 ~~~~~~~~~~~~~
 - mini
+
   - Name
   - Army
   - Unit type (e.g. hero, core, etc.)
@@ -79,13 +79,17 @@ record object
   - Notes
   - Image of model
   - methods: add, edit, delete
+
 - paint
+
   - Name
   - Colour
   - Company
   - Notes
   - methods: add, edit, delete
+
 - book
+
   - Title
   - Army
   - Edition
@@ -93,7 +97,9 @@ record object
   - Company
   - Notes
   - methods: add, edit, delete
+
 - game (aka board games)
+
   - Title
   - Company
   - Number of players
