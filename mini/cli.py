@@ -4,6 +4,26 @@ import gestalt
 import requests
 
 
+def hi(firstname, lastname):
+    '''
+    This function returns a greeting to the named person.
+
+    :param firstname: first name
+    :param lastname: last name
+    :type firstname: string
+    :type lastname: string
+    :returns: a greeting to the named person
+    :rtype: string
+    :example:
+
+        >>> hi('Brian', 'Moss')
+        'Hi Brian Moss!'
+    '''
+
+    response = "Hi " + firstname + " " + lastname + "!"
+    return(response)
+
+
 def checkresponse(url):
     try:
         r = requests.get(url)
