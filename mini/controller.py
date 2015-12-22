@@ -13,7 +13,6 @@ debug(False)
 
 @route('/')
 def index():
-    print(TEMPLATE_PATH)
     return(template('index'))
 
 
