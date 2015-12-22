@@ -16,4 +16,7 @@ Contents:
    gestalt.rst
 
 
+Index
+-----
+
 * :ref:`modindex`
