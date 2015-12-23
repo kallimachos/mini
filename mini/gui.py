@@ -1,8 +1,9 @@
 #!/bin/python3
 """GUI client for interacting with the mini REST API."""
 
-import gestalt
 import requests
+
+import gestalt
 
 
 def checkresponse(url):

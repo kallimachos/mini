@@ -1,7 +1,7 @@
 #!/bin/python3
 
-import model
 import gestalt
+import model
 
 configfile = 'tests/config4tests.ini'
 index = gestalt.LoadConfig(configfile).indexURL

@@ -1,8 +1,9 @@
 #!/bin/python3
 """Model for mini."""
 
-import gestalt
 import requests
+
+import gestalt
 
 
 def checkresponse(url):

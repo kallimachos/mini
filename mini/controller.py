@@ -1,9 +1,10 @@
 #!/bin/python3
 """Controller logic for mini."""
 
-import gestalt
 import requests
-from bottle import route, run, template, debug, TEMPLATE_PATH
+
+import gestalt
+from bottle import TEMPLATE_PATH, debug, route, run, template
 
 # append to bottle.TEMPLATE_PATH so views are correctly found by pytest
 TEMPLATE_PATH.append('mini/views/')

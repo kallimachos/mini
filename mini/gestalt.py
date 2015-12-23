@@ -2,6 +2,7 @@
 """Utility for loading configuration."""
 
 import requests
+
 try:
     import configparser
     '''

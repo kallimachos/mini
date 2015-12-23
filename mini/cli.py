@@ -1,8 +1,9 @@
 #!/bin/python3
 """CLI client for interacting with the mini REST API."""
 
-import gestalt
 import requests
+
+import gestalt
 
 
 def hi(firstname, lastname):
