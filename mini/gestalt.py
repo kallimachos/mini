@@ -29,7 +29,7 @@ class LoadConfig():
         protocol = config['DEFAULT']['protocol']
         host = config['DEFAULT']['host']
         port = config['DEFAULT']['port']
-        indexURL = protocol + '://' + host + ':' + port + '/'
+        indexURL = protocol + '://' + host + ':' + port
         self.settings = {'protocol': protocol, 'host': host, 'port': port,
                          'indexURL': indexURL}
         self.protocol = self.settings['protocol']

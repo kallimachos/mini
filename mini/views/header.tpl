@@ -4,8 +4,8 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <title>Mini Collection</title>
-    <link rel="icon" type="image/ico" href="/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="/mini.css" />
+    <link rel="icon" type="image/ico" href="/favicon.ico" />
 </head>
 <body>
     <h1>Mini Collection</h1>
