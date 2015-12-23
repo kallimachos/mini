@@ -4,13 +4,13 @@
 import requests
 
 import gestalt
-from bottle import TEMPLATE_PATH, debug, route, run, template
+from bottle import TEMPLATE_PATH, debug, route, run, static_file, template
 
 # append to bottle.TEMPLATE_PATH so views are correctly found by pytest
 TEMPLATE_PATH.append('mini/views/')
 
 # set debug(True) for testing
-debug(False)
+debug(True)
 
 
 @route('/')
@@ -19,20 +19,22 @@ def index():
     return(template('index'))
 
 
+@route('/favicon.ico', method='GET')
+def get_favicon():
+    """Return the favicon."""
+    return static_file('favicon.ico', root='static/')
+
+
+@route('/mini.css', method='GET')
+def get_favicon():
+    """Return the stylesheet."""
+    return static_file('mini.css', root='static/')
+
+
 @route('/hello/<name>')
 def helloname(name):
     """Return hello_name template for testing."""
     return(template('hello_name', name=name))
-
-
-def checkresponse(url):
-    """Confirm connection to the server."""
-    try:
-        r = requests.get(url)
-        return(r.status_code)
-    except Exception as e:
-        print('An error occured:\n' + str(e))
-        return(1)
 
 
 if __name__ == '__main__':

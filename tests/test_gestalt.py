@@ -15,4 +15,5 @@ def test_loadConfig():
 
 def test_checkresponse():
     assert gestalt.checkresponse(settings.indexURL) == 200
+    assert gestalt.checkresponse(settings.indexURL + '404') == 404
     assert gestalt.checkresponse('failURL') == 1

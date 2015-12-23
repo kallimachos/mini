@@ -1,1 +1,3 @@
-<h1>Index Page</h1>
+% include('header.tpl')
+<h2>Index Page</h2>
+% include('footer.tpl')

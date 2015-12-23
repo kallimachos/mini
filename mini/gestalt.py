@@ -1,18 +1,22 @@
 #!/bin/python3
 """Utility for loading configuration."""
 
+import logging
+
 import requests
 
 try:
     import configparser
-    '''
+    """
     >>> import configparser
-    '''
+    """
 except:
     import ConfigParser as configparser
-    '''
+    """
+    Handle deprecated module name for Travis CI.
+
     >>> import ConfigParser as configparser
-    '''
+    """
 
 
 class LoadConfig():
@@ -36,12 +40,27 @@ class LoadConfig():
 
 
 def checkresponse(url):
-    """Confirm connection to the server."""
+    """
+    Confirm connection to the server.
+
+    :param url: check response from this URL
+    :type url: string
+    :returns: server response code
+    :rtype: int
+    :example:
+
+        >>> checkresponse('http://localhost:8080/')
+        200
+        >>> checkresponse('http://localhost:8080/404')
+        404
+        >>> checkresponse('')
+        1
+    """
     try:
         r = requests.get(url)
         return(r.status_code)
     except Exception as e:
-        print('An error occured:\n' + str(e))
+        logging.error('An error occured:\n' + str(e))
         return(1)
 
 
