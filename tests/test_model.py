@@ -5,8 +5,10 @@ import model
 
 configfile = 'tests/config4tests.ini'
 index = gestalt.LoadConfig(configfile).indexURL
+status = gestalt.checkresponse(index)
 
 
 def test_checkresponse():
-    assert model.checkresponse(index) == 200
-    assert model.checkresponse('failURL') == 1
+    if status == 200:
+        assert model.checkresponse(index) == 200
+        assert model.checkresponse('failURL') == 1
