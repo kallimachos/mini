@@ -49,9 +49,9 @@ def checkresponse(url):
     :rtype: int
     :example:
 
-        >>> checkresponse('http://localhost:8080/')
+        >>> checkresponse('http://localhost:8080/') # doctest: +SKIP
         200
-        >>> checkresponse('http://localhost:8080/404')
+        >>> checkresponse('http://localhost:8080/404') # doctest: +SKIP
         404
         >>> checkresponse('')
         1

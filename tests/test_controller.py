@@ -1,14 +1,14 @@
 #!/bin/python3
 
+import webtest
+
 import controller
 import gestalt
-
-from webtest import TestApp
 
 configfile = 'tests/config4tests.ini'
 index = gestalt.LoadConfig(configfile).indexURL
 
-app = TestApp(controller.app)
+app = webtest.TestApp(controller.app)
 status = gestalt.checkresponse(index)
 
 
