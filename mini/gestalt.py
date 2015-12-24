@@ -20,7 +20,7 @@ except:
 
 
 class LoadConfig():
-    """Expose configuration values from config file."""
+    """Expose configuration values from configfile."""
 
     def __init__(self, configfile):
         """Read config file and set object values."""
@@ -29,13 +29,16 @@ class LoadConfig():
         protocol = config['DEFAULT']['protocol']
         host = config['DEFAULT']['host']
         port = config['DEFAULT']['port']
-        indexURL = protocol + '://' + host + ':' + port
+        api = config['DEFAULT']['api']
+        index = protocol + '://' + host + ':' + port
+        api = index + '/' + api
         self.settings = {'protocol': protocol, 'host': host, 'port': port,
-                         'indexURL': indexURL}
+                         'index': index, 'api': api}
         self.protocol = self.settings['protocol']
         self.host = self.settings['host']
         self.port = self.settings['port']
-        self.indexURL = self.settings['indexURL']
+        self.index = self.settings['index']
+        self.api = self.settings['api']
         return
 
 
@@ -66,4 +69,4 @@ def checkresponse(url):
 
 if __name__ == '__main__':
     settings = LoadConfig('config.ini').settings
-    print(checkresponse(settings.indexURL))
+    print(checkresponse(settings.index))

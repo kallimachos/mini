@@ -6,7 +6,7 @@ import controller
 import gestalt
 
 configfile = 'tests/config4tests.ini'
-index = gestalt.LoadConfig(configfile).indexURL
+index = gestalt.LoadConfig(configfile).index
 
 app = webtest.TestApp(controller.app)
 status = gestalt.checkresponse(index)
@@ -40,7 +40,3 @@ def test_error():
 def test_helloname():
     if status == 200:
         assert app.get(index + '/hello/Brian').status_int == 200
-
-
-# def test_failure():
-#     assert app.get(index + 'FAILURL').status_int == 404

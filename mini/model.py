@@ -1,21 +1,29 @@
 #!/bin/python3
 """Model for mini."""
 
-import requests
-
-import gestalt
+import json
 
 
-def checkresponse(url):
-    """Confirm connection to the server."""
-    try:
-        r = requests.get(url)
-        return(r.status_code)
-    except Exception as e:
-        print('An error occured:\n' + str(e))
-        return(1)
+def create():
+    """Create a DB."""
+    pass
+
+
+def add():
+    """Add an item to the DB."""
+    pass
+
+
+def dump():
+    """
+    Return a raw dump of the DB.
+
+    :returns: a raw dump of the DB
+    :rtype: JSON
+    """
+    resp = json.dumps('This is a string that represents a dumped DB')
+    return(resp)
 
 
 if __name__ == '__main__':
-    index = gestalt.LoadConfig('config.ini').indexURL
-    print(checkresponse(index))
+    print(dump())

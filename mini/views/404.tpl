@@ -1,4 +1,4 @@
 % include('header.tpl')
-<h2>500</h2>
-<p>Sorry, there has been a server error.</p>
+<h2>404</h2>
+<p>Sorry, this page does not exist.</p>
 % include('footer.tpl')

@@ -1,14 +1,9 @@
 #!/bin/python3
 
-import gestalt
-import model
-
-configfile = 'tests/config4tests.ini'
-index = gestalt.LoadConfig(configfile).indexURL
-status = gestalt.checkresponse(index)
-
-
-def test_checkresponse():
-    if status == 200:
-        assert model.checkresponse(index) == 200
-        assert model.checkresponse('failURL') == 1
+# import model
+#
+# configfile = 'tests/config4tests.ini'
+#
+#
+# def test_dump():
+#     assert model.dump() == 'This is a string that represents a dumped DB'

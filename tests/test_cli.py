@@ -4,11 +4,10 @@ import cli
 import gestalt
 
 configfile = 'tests/config4tests.ini'
-index = gestalt.LoadConfig(configfile).indexURL
-status = gestalt.checkresponse(index)
+api = gestalt.LoadConfig(configfile).api
+# status = gestalt.checkresponse(index)
 
 
-def test_checkresponse():
-    if status == 200:
-        assert cli.checkresponse(index) == 200
-        assert cli.checkresponse('failURL') == 1
+def test_dump():
+    # assert cli.dump(api) is True
+    assert cli.dump('http://localhost:8080/BADAPI') is False

@@ -1,8 +1,11 @@
 #!/bin/python3
 """Controller logic for mini."""
 
+import json
+
 import gestalt
-from bottle import (TEMPLATE_PATH, Bottle, debug, error, run, static_file,
+import model
+from bottle import (TEMPLATE_PATH, Bottle, debug, request, run, static_file,
                     template)
 
 app = Bottle()
@@ -14,7 +17,7 @@ TEMPLATE_PATH.append('mini/views/')
 debug(True)
 
 
-@app.route('/')
+@app.route('/', method='GET')
 def index():
     """Return index template."""
     return(template('index'))
@@ -32,22 +35,64 @@ def get_css():
     return static_file('mini.css', root='static/')
 
 
-@error(404)
+@app.route('/hello/<name>', method='GET')
+def helloname(name):
+    """Return hello_name template for testing."""
+    return(template('hello_name', name=name))
+
+
+@app.route('/dump', method='GET')
+@app.route('/api/dump', method='GET')
+def dump():
+    """
+    Return a raw dump of the DB.
+
+    :returns: a raw dump of the DB
+    :rtype: JSON
+    """
+    if request.path == '/dump':
+        return(template('dump', dump=model.dump()))
+    else:
+        return(model.dump())
+
+
+@app.route('/endpoints', method='GET')
+@app.route('/api/endpoints', method='GET')
+def endpoints():
+    """
+    Return a list of API endpoints.
+
+    :returns: a list of API endpoints
+    :rtype: JSON array
+    :example:
+
+        >>> endpoints()  # doctest: +NORMALIZE_WHITESPACE
+        '[["GET", "/"], ["GET", "/api/dump"], ["GET", "/api/endpoints"],
+        ["GET", "/dump"], ["GET", "/endpoints"], ["GET", "/favicon.ico"],
+        ["GET", "/hello/<name>"], ["GET", "/mini.css"]]'
+    """
+    routes = []
+    for route in app.routes:
+        endpoint = [route.method, route.rule]
+        routes.append(endpoint)
+    routes.sort()
+    resp = json.dumps(routes)
+    if request.path == '/endpoints':
+        return(template('endpoints', endpoints=resp))
+    else:
+        return(resp)
+
+
+@app.error(404)
 def missing(code):
     """Return 404 template."""
     return(template('404'))
 
 
-@error(500)
-def error(code):
+@app.error(500)
+def serverfault(code):
     """Return 500 template."""
     return(template('500'))
-
-
-@app.route('/hello/<name>')
-def helloname(name):
-    """Return hello_name template for testing."""
-    return(template('hello_name', name=name))
 
 
 if __name__ == '__main__':
