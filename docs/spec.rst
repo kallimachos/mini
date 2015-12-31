@@ -55,7 +55,7 @@ View
 
 - cli.py - argparse
 - gui.py - tkinter
-- web.py - HTML, CSS, mobile-friendly
+- web - HTML, CSS, mobile-friendly
 - Android
 
 
@@ -65,8 +65,17 @@ Controller
 - controller.py
 - REST API (bottle)
 
-record object
-~~~~~~~~~~~~~
+tables
+~~~~~~
+- game (aka board games)
+
+  - Name
+  - Company
+  - Number of players
+  - Time to play
+  - Age range
+  - methods: add, edit, delete
+
 - mini
 
   - Name
@@ -83,28 +92,9 @@ record object
 - paint
 
   - Name
-  - Colour
+  - Colour (= primary colour, so one could, e.g., look at all shades of blue)
   - Company
   - Notes
-  - methods: add, edit, delete
-
-- book
-
-  - Title
-  - Army
-  - Edition
-  - Year
-  - Company
-  - Notes
-  - methods: add, edit, delete
-
-- game (aka board games)
-
-  - Title
-  - Company
-  - Number of players
-  - Time to play
-  - Age range
   - methods: add, edit, delete
 
 

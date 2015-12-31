@@ -57,6 +57,8 @@ def dump(api):
     """
     output = callapi(api, 'get', 'dump')
     print(output[0])
+    # for line in json.loads(dump(database)):
+    #     print(line)
     return(output[1])
 
 
