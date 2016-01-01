@@ -5,9 +5,12 @@ import model
 
 # database = ':memory:'
 database = 'mini/test.db'
-gamedata = json.dumps({'kind': 'game', 'name': 'game4', 'price': 52})
-minidata = json.dumps({'kind': 'mini', 'name': 'mini4', 'price': 52})
-paintdata = json.dumps({'kind': 'paint', 'name': 'paint4', 'price': 52})
+gamedata = json.dumps({'kind': 'game', 'name': 'Game4', 'price': 52})
+minidata = json.dumps({'kind': 'mini', 'name': 'Mini4', 'price': 52})
+paintdata = json.dumps({'kind': 'paint', 'name': 'Paint4', 'price': 52})
+delgame = json.dumps({'kind': 'game', 'name': 'Game2', 'price': 52})
+delmini = json.dumps({'kind': 'mini', 'name': 'Mini2', 'price': 52})
+delpaint = json.dumps({'kind': 'paint', 'name': 'Paint2', 'price': 52})
 model.setup_test(database)
 
 
@@ -18,9 +21,9 @@ def test_add():
 
 
 def test_delete():
-    assert model.delete(database, gamedata) is None
-    assert model.delete(database, minidata) is None
-    assert model.delete(database, paintdata) is None
+    assert model.delete(database, delgame) == '1'
+    assert model.delete(database, delmini) == '1'
+    assert model.delete(database, delpaint) == '1'
 
 
 def test_dump():

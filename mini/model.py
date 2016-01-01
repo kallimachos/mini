@@ -30,7 +30,25 @@ def add(database, data):
 
 def delete(database, data):
     """Delete an item from the DB."""
-    pass
+    item = json.loads(data)
+    kind = item['kind']
+    entry = (item['name'],)
+    con = sql.connect(database)
+    with con:
+        cur = con.cursor()
+        if kind == 'game':
+            cur.execute("DELETE FROM Game WHERE name = ?", entry)
+        elif kind == 'mini':
+            cur.execute("DELETE FROM Mini WHERE name = ?", entry)
+        elif kind == 'paint':
+            cur.execute("DELETE FROM Paint WHERE name = ?", entry)
+        resp = json.dumps(cur.rowcount)
+        # resp = json.dumps(cur.lastrowid)
+        return(resp)
+
+    # Delete user with id 2
+    # delete_userid = 2
+    # cursor.execute('''DELETE FROM users WHERE id = ? ''', (delete_userid,))
 
 
 def dump(database):
@@ -50,6 +68,8 @@ def dump(database):
 
 def edit(database, data):
     """Edit an item in the DB."""
+    # cursor.execute('''UPDATE users SET phone = ? WHERE id = ? ''',
+    #                (newphone, userid))
     pass
 
 
@@ -77,9 +97,9 @@ def setup_test(database):
         ('Mini3', 20),
     )
     paints = (
-        ('Color1', 26),
-        ('Color2', 71),
-        ('Color3', 30),
+        ('Paint1', 26),
+        ('Paint2', 71),
+        ('Paint3', 30),
     )
     con = sql.connect(database)
     with con:
@@ -111,6 +131,9 @@ def setup_test(database):
 
 def view(database, data):
     """View an item in the DB."""
+    # cursor.execute('''SELECT name, email, phone
+    #                   FROM users WHERE id=?''', (user_id,))
+    # user = cursor.fetchone()
     pass
 
 if __name__ == '__main__':
@@ -118,4 +141,12 @@ if __name__ == '__main__':
     # line for production
     database = 'test.db'
     setup_test(database)
-    print(json.loads(sqlite_version(database)))
+    print(json.loads(sqlite_version(database)) + '\n')
+    delgame = json.dumps({'kind': 'game', 'name': 'Game2', 'price': 52})
+    delmini = json.dumps({'kind': 'mini', 'name': 'Mini2', 'price': 52})
+    delpaint = json.dumps({'kind': 'paint', 'name': 'Paint2', 'price': 52})
+    print(delete(database, delgame))
+    print(delete(database, delmini))
+    print(delete(database, delpaint))
+    for line in json.loads(dump(database)):
+        print(line)
