@@ -43,7 +43,6 @@ def delete(database, data):
         elif kind == 'paint':
             cur.execute("DELETE FROM Paint WHERE name = ?", entry)
         resp = json.dumps(cur.rowcount)
-        # resp = json.dumps(cur.lastrowid)
         return(resp)
 
 
@@ -140,7 +139,6 @@ def view(database, data):
         elif kind == 'paint':
             cur.execute("SELECT * FROM Paint WHERE name = ?", entry)
         resp = json.dumps(cur.fetchone())
-        # resp = json.dumps(cur.lastrowid)
         return(resp)
 
 
