@@ -5,25 +5,25 @@ import model
 
 # database = ':memory:'
 database = 'mini/test.db'
-gamedata = json.dumps({'kind': 'game', 'name': 'Game4', 'price': 52})
-minidata = json.dumps({'kind': 'mini', 'name': 'Mini4', 'price': 52})
-paintdata = json.dumps({'kind': 'paint', 'name': 'Paint4', 'price': 52})
-delgame = json.dumps({'kind': 'game', 'name': 'Game2', 'price': 52})
-delmini = json.dumps({'kind': 'mini', 'name': 'Mini2', 'price': 52})
-delpaint = json.dumps({'kind': 'paint', 'name': 'Paint2', 'price': 52})
 model.setup_test(database)
 
 
 def test_add():
-    assert model.add(database, gamedata) == '1'
-    assert model.add(database, minidata) == '1'
-    assert model.add(database, paintdata) == '1'
+    game = json.dumps({'kind': 'game', 'name': 'Game4', 'price': 52})
+    mini = json.dumps({'kind': 'mini', 'name': 'Mini4', 'price': 52})
+    paint = json.dumps({'kind': 'paint', 'name': 'Paint4', 'price': 52})
+    assert model.add(database, game) == '1'
+    assert model.add(database, mini) == '1'
+    assert model.add(database, paint) == '1'
 
 
 def test_delete():
-    assert model.delete(database, delgame) == '1'
-    assert model.delete(database, delmini) == '1'
-    assert model.delete(database, delpaint) == '1'
+    game = json.dumps({'kind': 'game', 'name': 'Game3', 'price': 52})
+    mini = json.dumps({'kind': 'mini', 'name': 'Mini3', 'price': 52})
+    paint = json.dumps({'kind': 'paint', 'name': 'Paint3', 'price': 52})
+    assert model.delete(database, game) == '1'
+    assert model.delete(database, mini) == '1'
+    assert model.delete(database, paint) == '1'
 
 
 def test_dump():
@@ -32,9 +32,12 @@ def test_dump():
 
 
 def test_edit():
-    assert model.edit(database, gamedata) is None
-    assert model.edit(database, minidata) is None
-    assert model.edit(database, paintdata) is None
+    game = json.dumps({'kind': 'game', 'name': 'Game1', 'price': 52})
+    mini = json.dumps({'kind': 'mini', 'name': 'Mini1', 'price': 52})
+    paint = json.dumps({'kind': 'paint', 'name': 'Paint1', 'price': 52})
+    assert model.edit(database, game) is None
+    assert model.edit(database, mini) is None
+    assert model.edit(database, paint) is None
 
 
 def test_setup_test():
@@ -47,6 +50,9 @@ def test_sqlite_version():
 
 
 def test_view():
-    assert model.view(database, gamedata) is None
-    assert model.view(database, minidata) is None
-    assert model.view(database, paintdata) is None
+    game = json.dumps({'kind': 'game', 'name': 'Game2', 'price': 52})
+    mini = json.dumps({'kind': 'mini', 'name': 'Mini2', 'price': 52})
+    paint = json.dumps({'kind': 'paint', 'name': 'Paint2', 'price': 52})
+    assert model.view(database, game) == '[2, "Game2", 57]'
+    assert model.view(database, mini) == '[2, "Mini2", 27]'
+    assert model.view(database, paint) == '[2, "Paint2", 71]'

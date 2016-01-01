@@ -46,10 +46,6 @@ def delete(database, data):
         # resp = json.dumps(cur.lastrowid)
         return(resp)
 
-    # Delete user with id 2
-    # delete_userid = 2
-    # cursor.execute('''DELETE FROM users WHERE id = ? ''', (delete_userid,))
-
 
 def dump(database):
     """
@@ -131,10 +127,22 @@ def setup_test(database):
 
 def view(database, data):
     """View an item in the DB."""
-    # cursor.execute('''SELECT name, email, phone
-    #                   FROM users WHERE id=?''', (user_id,))
-    # user = cursor.fetchone()
-    pass
+    item = json.loads(data)
+    kind = item['kind']
+    entry = (item['name'],)
+    con = sql.connect(database)
+    with con:
+        cur = con.cursor()
+        if kind == 'game':
+            cur.execute("SELECT * FROM Game WHERE name = ?", entry)
+        elif kind == 'mini':
+            cur.execute("SELECT * FROM Mini WHERE name = ?", entry)
+        elif kind == 'paint':
+            cur.execute("SELECT * FROM Paint WHERE name = ?", entry)
+        resp = json.dumps(cur.fetchone())
+        # resp = json.dumps(cur.lastrowid)
+        return(resp)
+
 
 if __name__ == '__main__':
     # These statements are for testing only. Remove all but the version
@@ -142,11 +150,11 @@ if __name__ == '__main__':
     database = 'test.db'
     setup_test(database)
     print(json.loads(sqlite_version(database)) + '\n')
-    delgame = json.dumps({'kind': 'game', 'name': 'Game2', 'price': 52})
-    delmini = json.dumps({'kind': 'mini', 'name': 'Mini2', 'price': 52})
-    delpaint = json.dumps({'kind': 'paint', 'name': 'Paint2', 'price': 52})
-    print(delete(database, delgame))
-    print(delete(database, delmini))
-    print(delete(database, delpaint))
+    game = json.dumps({'kind': 'game', 'name': 'Game2', 'price': 52})
+    mini = json.dumps({'kind': 'mini', 'name': 'Mini2', 'price': 52})
+    paint = json.dumps({'kind': 'paint', 'name': 'Paint2', 'price': 52})
+    print(view(database, game))
+    print(view(database, mini))
+    print(view(database, paint))
     for line in json.loads(dump(database)):
         print(line)
