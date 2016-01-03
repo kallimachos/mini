@@ -55,7 +55,8 @@ def test_setup_test():
 
 
 def test_sqlite_version():
-    assert model.sqlite_version(database) == '"SQLite version: 3.9.0"'
+    assert json.loads(model.sqlite_version(database)).strip().split()[0:2] \
+        == ['SQLite', 'version:']
 
 
 def test_view():
