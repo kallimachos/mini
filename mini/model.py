@@ -63,9 +63,21 @@ def dump(database):
 
 def edit(database, data):
     """Edit an item in the DB."""
-    # cursor.execute('''UPDATE users SET phone = ? WHERE id = ? ''',
-    #                (newphone, userid))
-    pass
+    item = json.loads(data)
+    kind = item['kind']
+    entry = (item['price'], item['name'])
+    print(entry)
+    con = sql.connect(database)
+    with con:
+        cur = con.cursor()
+        if kind == 'game':
+            cur.execute("UPDATE Game SET price = ? WHERE name = ?", entry)
+        elif kind == 'mini':
+            cur.execute("UPDATE Mini SET price = ? WHERE name = ?", entry)
+        elif kind == 'paint':
+            cur.execute("UPDATE Paint SET price = ? WHERE name = ?", entry)
+        resp = json.dumps(cur.rowcount)
+        return(resp)
 
 
 def sqlite_version(database):
@@ -82,7 +94,7 @@ def sqlite_version(database):
 def setup_test(database):
     """Drop and recreate the tables in a database for testing."""
     games = (
-        ('Game1', 52),
+        ('Game1', 63),
         ('Game2', 57),
         ('Game3', 90),
     )
@@ -148,11 +160,5 @@ if __name__ == '__main__':
     database = 'test.db'
     setup_test(database)
     print(json.loads(sqlite_version(database)) + '\n')
-    game = json.dumps({'kind': 'game', 'name': 'Game2', 'price': 52})
-    mini = json.dumps({'kind': 'mini', 'name': 'Mini2', 'price': 52})
-    paint = json.dumps({'kind': 'paint', 'name': 'Paint2', 'price': 52})
-    print(view(database, game))
-    print(view(database, mini))
-    print(view(database, paint))
     for line in json.loads(dump(database)):
         print(line)
