@@ -160,8 +160,5 @@ if __name__ == '__main__':
     database = 'test.db'
     setup_test(database)
     print(json.loads(sqlite_version(database)) + '\n')
-    text = json.loads(sqlite_version(database)).strip().split()
-    result = text
-    print(result[0:2])
     for line in json.loads(dump(database)):
         print(line)
