@@ -40,7 +40,7 @@ Hosting
 -------
 
 - Rackspace public cloud
-- Bottle framework
+- OpenShift
 
 
 Model
@@ -72,8 +72,11 @@ tables
   - Name
   - Company
   - Number of players
-  - Time to play
+  - Time to play in minutes
   - Age range
+  - Link (to webpage, boardgamegeek, vel sim.)
+  - Image
+  - Notes
   - methods: add, edit, delete
 
 - mini
@@ -85,6 +88,8 @@ tables
   - Company
   - Quantity
   - Status (painted, unpainted, sprue, bitz, NIB)
+  - Link (to webpage, GW, vel sim.)
+  - Image
   - Notes
   - Image of model
   - methods: add, edit, delete
@@ -93,6 +98,7 @@ tables
 
   - Name
   - Colour (= primary colour, so one could, e.g., look at all shades of blue)
+  - Type (metallic, wash, ink, matte)
   - Company
   - Notes
   - methods: add, edit, delete

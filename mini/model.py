@@ -3,8 +3,7 @@
 
 import json
 import sqlite3 as sql
-
-database = 'sqlite.db'
+from os.path import isfile
 
 
 def add(database, data):
@@ -15,17 +14,64 @@ def add(database, data):
     with con:
         cur = con.cursor()
         if kind == 'game':
-            entry = (item['name'], item['price'])
-            cur.execute("INSERT INTO Game (name, price) VALUES(?,?)", entry)
+            cur.execute('INSERT INTO Game VALUES (:ID, :kind, :name, \
+                        :company,:minPlayers, :maxPlayers, :age, :length, \
+                        :link, :image, :notes)', item)
         elif kind == 'mini':
-            entry = (item['name'], item['price'])
-            cur.execute("INSERT INTO Mini (name, price) VALUES(?,?)", entry)
+            cur.execute('INSERT INTO Mini VALUES (:ID, :kind, :name, :army, \
+                        :type, :system, :company, :quantity, :status, :link, \
+                        :image, :notes)', item)
         elif kind == 'paint':
-            entry = (item['name'], item['price'])
-            cur.execute("INSERT INTO Paint (name, price) VALUES(?,?)", entry)
+            cur.execute('INSERT INTO Paint VALUES (:ID, :kind, :name, :color, \
+                        :type, :company, :quantity, :link, :notes)', item)
         resp = json.dumps(cur.rowcount)
-        # resp = json.dumps(cur.lastrowid)
         return(resp)
+
+
+def createDB(database):
+    """Create DB and initialize tables."""
+    if isfile(database) is False:
+        con = sql.connect(database)
+        with con:
+            cur = con.cursor()
+            cur.execute("""CREATE TABLE Game
+                        (ID INTEGER PRIMARY KEY,
+                        kind TEXT NOT NULL,
+                        name TEXT NOT NULL,
+                        company TEXT,
+                        minplayers INT,
+                        maxplayers INT,
+                        age INT,
+                        length INT,
+                        link TEXT,
+                        image BLOB,
+                        notes TEXT)""")
+            cur.execute("""CREATE TABLE Mini
+                        (ID INTEGER PRIMARY KEY,
+                        kind TEXT NOT NULL,
+                        name TEXT NOT NULL,
+                        army TEXT,
+                        type TEXT,
+                        system TEXT,
+                        company TEXT,
+                        quantity INT,
+                        status TEXT,
+                        link TEXT,
+                        image BLOB,
+                        notes TEXT)""")
+            cur.execute("""CREATE TABLE Paint
+                        (ID INTEGER PRIMARY KEY,
+                        kind TEXT NOT NULL,
+                        name TEXT NOT NULL,
+                        color TEXT,
+                        type TEXT,
+                        company TEXT,
+                        quantity INT,
+                        link TEXT,
+                        notes TEXT)""")
+        return(True)
+    else:
+        return(False)
 
 
 def delete(database, data):
@@ -65,17 +111,23 @@ def edit(database, data):
     """Edit an item in the DB."""
     item = json.loads(data)
     kind = item['kind']
-    entry = (item['price'], item['name'])
-    print(entry)
     con = sql.connect(database)
     with con:
         cur = con.cursor()
         if kind == 'game':
-            cur.execute("UPDATE Game SET price = ? WHERE name = ?", entry)
+            cur.execute("UPDATE Game SET name==:name, company==:company, \
+                        minPlayers==:minPlayers, maxPlayers==:maxPlayers, \
+                        age==:age, length==:length, link==:link, \
+                        image==:image, notes==:notes WHERE name==:name", item)
         elif kind == 'mini':
-            cur.execute("UPDATE Mini SET price = ? WHERE name = ?", entry)
+            cur.execute("UPDATE Mini SET name==:name, army==:army, \
+                        type==:type, system==:system, company==:company, \
+                        quantity==:quantity, status==:status, link==:link, \
+                        image==:image, notes==:notes WHERE name==:name", item)
         elif kind == 'paint':
-            cur.execute("UPDATE Paint SET price = ? WHERE name = ?", entry)
+            cur.execute("UPDATE Paint SET name==:name, color==:color, \
+                        type==:type, company==:company, quantity==:quantity, \
+                        link==:link, notes==:notes WHERE name==:name", item)
         resp = json.dumps(cur.rowcount)
         return(resp)
 
@@ -91,74 +143,34 @@ def sqlite_version(database):
         return(resp)
 
 
-def setup_test(database):
-    """Drop and recreate the tables in a database for testing."""
-    games = (
-        ('Game1', 63),
-        ('Game2', 57),
-        ('Game3', 90),
-    )
-    minis = (
-        ('Mini1', 42),
-        ('Mini2', 27),
-        ('Mini3', 20),
-    )
-    paints = (
-        ('Paint1', 26),
-        ('Paint2', 71),
-        ('Paint3', 30),
-    )
-    con = sql.connect(database)
-    with con:
-        cur = con.cursor()
-        cur.execute("DROP TABLE IF EXISTS Game")
-        cur.execute("""CREATE TABLE Game
-                    (Id INTEGER PRIMARY KEY,
-                    Name TEXT NOT NULL,
-                    Price INT)""")
-        cur.executemany("INSERT INTO Game (Name, Price) VALUES(?, ?)", games)
-        cur.execute("DROP TABLE IF EXISTS Mini")
-        cur.execute("""CREATE TABLE Mini
-                    (Id INTEGER PRIMARY KEY,
-                    Name TEXT NOT NULL,
-                    Price INT)""")
-        cur.executemany("INSERT INTO Mini (Name, Price) VALUES(?, ?)", minis)
-        cur.execute("DROP TABLE IF EXISTS Paint")
-        cur.execute("""CREATE TABLE Paint
-                    (Id INTEGER PRIMARY KEY,
-                    Name TEXT NOT NULL,
-                    Price INT)""")
-        cur.executemany("INSERT INTO Paint (Name, Price) VALUES(?, ?)", paints)
-    output = []
-    for line in con.iterdump():
-        output.append(line)
-    resp = json.dumps(output)
-    return(resp)
-
-
 def view(database, data):
     """View an item in the DB."""
     item = json.loads(data)
     kind = item['kind']
-    entry = (item['name'],)
     con = sql.connect(database)
     with con:
         cur = con.cursor()
         if kind == 'game':
-            cur.execute("SELECT * FROM Game WHERE name = ?", entry)
+            cur.execute("SELECT * FROM Game WHERE name==:name", item)
         elif kind == 'mini':
-            cur.execute("SELECT * FROM Mini WHERE name = ?", entry)
+            cur.execute("SELECT * FROM Mini WHERE name==:name", item)
         elif kind == 'paint':
-            cur.execute("SELECT * FROM Paint WHERE name = ?", entry)
+            cur.execute("SELECT * FROM Paint WHERE name==:name", item)
         resp = json.dumps(cur.fetchone())
         return(resp)
 
+# Specify database file and initialize DB if it does not already exist
+database = 'test.db'
+createDB(database)
 
 if __name__ == '__main__':
-    # These statements are for testing only. Remove all but the version
-    # line for production
-    database = 'test.db'
-    setup_test(database)
+    # These statements are for testing only
+    game = json.dumps({'ID': None, 'kind': 'game', 'name': 'Game1',
+                       'company': 'Company1', 'minPlayers': 1,
+                       'maxPlayers': 4, 'age': 10, 'length': 60,
+                       'link': 'www.example.com', 'image': None,
+                       'notes': 'Fun!'})
+    edit(database, game)
     print(json.loads(sqlite_version(database)) + '\n')
     for line in json.loads(dump(database)):
         print(line)
