@@ -5,10 +5,9 @@ import json
 import logging
 import sqlite3 as sql
 from os import remove
+from os.path import basename, exists
 
 import requests
-
-from model import createDB
 
 try:
     import configparser
@@ -27,23 +26,30 @@ except:
 class LoadConfig():
     """Expose configuration values from configfile."""
 
-    def __init__(self, configfile):
+    def __init__(self):
         """Read config file and set object values."""
+        configfile = 'config.ini'
+        if exists(configfile) is False:
+            configfile = 'mini/' + configfile
         config = configparser.ConfigParser()
         config.read(configfile)
         protocol = config['DEFAULT']['protocol']
         host = config['DEFAULT']['host']
         port = config['DEFAULT']['port']
         api = config['DEFAULT']['api']
+        database = config['DEFAULT']['database']
+        if exists(database) is False:
+            database = 'mini/' + database
         index = protocol + '://' + host + ':' + port
         api = index + '/' + api
         self.settings = {'protocol': protocol, 'host': host, 'port': port,
-                         'index': index, 'api': api}
+                         'index': index, 'api': api, 'database': database}
         self.protocol = self.settings['protocol']
         self.host = self.settings['host']
         self.port = self.settings['port']
         self.index = self.settings['index']
         self.api = self.settings['api']
+        self.database = self.settings['database']
         return
 
 
@@ -72,8 +78,11 @@ def checkresponse(url):
         return(1)
 
 
-def setupTestDB(database):
-    """Create test databse with example data."""
+def setupTestDB():
+    """Create test database with example data."""
+    database = LoadConfig().database
+    if basename(database) == 'test.db':
+        remove(database)
     game1 = {'ID': None, 'kind': 'game', 'name': 'Game1',
              'company': 'Company1', 'minPlayers': 1, 'maxPlayers': 4,
              'age': 10, 'length': 30, 'link': 'www.example.com', 'image': None,
@@ -116,11 +125,45 @@ def setupTestDB(database):
               'link': 'www.example.com', 'notes': 'Fun!'}
     paints = (paint1, paint2, paint3)
 
-    remove(database)
-    createDB(database)
+    """Create DB and initialize tables with values."""
     con = sql.connect(database)
     with con:
         cur = con.cursor()
+        cur.execute("""CREATE TABLE Game
+                    (ID INTEGER PRIMARY KEY,
+                    kind TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    company TEXT,
+                    minplayers INT,
+                    maxplayers INT,
+                    age INT,
+                    length INT,
+                    link TEXT,
+                    image BLOB,
+                    notes TEXT)""")
+        cur.execute("""CREATE TABLE Mini
+                    (ID INTEGER PRIMARY KEY,
+                    kind TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    army TEXT,
+                    type TEXT,
+                    system TEXT,
+                    company TEXT,
+                    quantity INT,
+                    status TEXT,
+                    link TEXT,
+                    image BLOB,
+                    notes TEXT)""")
+        cur.execute("""CREATE TABLE Paint
+                    (ID INTEGER PRIMARY KEY,
+                    kind TEXT NOT NULL,
+                    name TEXT NOT NULL,
+                    color TEXT,
+                    type TEXT,
+                    company TEXT,
+                    quantity INT,
+                    link TEXT,
+                    notes TEXT)""")
         cur.execute("DELETE FROM Game")
         for game in games:
             cur.execute('INSERT INTO Game VALUES (:ID, :kind, :name, \
@@ -144,5 +187,5 @@ def setupTestDB(database):
 
 
 if __name__ == '__main__':
-    settings = LoadConfig('config.ini').settings
-    print(checkresponse(settings.index))
+    config = LoadConfig()
+    print(config.settings)

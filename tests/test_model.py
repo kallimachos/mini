@@ -2,7 +2,7 @@
 
 import json
 import model
-from gestalt import setupTestDB
+import gestalt
 
 
 def test_add():
@@ -22,16 +22,21 @@ def test_add():
                         'color': 'green', 'type': 'matte',
                         'company': 'Company1', 'quantity': 1,
                         'link': 'www.example.com', 'notes': 'Fun!'})
-    assert model.add(database, game) == '1'
-    assert model.view(database, game) == '[4, "game", "Game4", "Company1", 1, \
+    assert model.add(game) == '1'
+    assert model.view(game) == '[4, "game", "Game4", "Company1", 1, \
 4, 10, 30, "www.example.com", null, "Fun!"]'
-    assert model.add(database, mini) == '1'
-    assert model.view(database, mini) == '[4, "mini", "Mini4", \
+    assert model.add(mini) == '1'
+    assert model.view(mini) == '[4, "mini", "Mini4", \
 "Orcs and Goblins", "core", "WFB", "Company1", 10, "painted", \
 "www.example.com", null, "Fun!"]'
-    assert model.add(database, paint) == '1'
-    assert model.view(database, paint) == '[4, "paint", "Paint4", "green", \
+    assert model.add(paint) == '1'
+    assert model.view(paint) == '[4, "paint", "Paint4", "green", \
 "matte", "Company1", 1, "www.example.com", "Fun!"]'
+
+
+def test_createDB():
+    exampleDB = model.createDB()
+    assert exampleDB is True
 
 
 def test_delete():
@@ -51,17 +56,17 @@ def test_delete():
                         'color': 'green', 'type': 'matte',
                         'company': 'Company1', 'quantity': 1,
                         'link': 'www.example.com', 'notes': 'Fun!'})
-    assert model.delete(database, game) == '1'
-    assert model.view(database, game) == 'null'
-    assert model.delete(database, mini) == '1'
-    assert model.view(database, mini) == 'null'
-    assert model.delete(database, paint) == '1'
-    assert model.view(database, paint) == 'null'
+    assert model.delete(game) == '1'
+    assert model.view(game) == 'null'
+    assert model.delete(mini) == '1'
+    assert model.view(mini) == 'null'
+    assert model.delete(paint) == '1'
+    assert model.view(paint) == 'null'
 
 
 def test_dump():
-    assert json.loads(model.dump(database))[0] == 'BEGIN TRANSACTION;'
-    assert json.loads(model.dump(database))[-1] == 'COMMIT;'
+    assert json.loads(model.dump())[0] == 'BEGIN TRANSACTION;'
+    assert json.loads(model.dump())[-1] == 'COMMIT;'
 
 
 def test_edit():
@@ -81,20 +86,20 @@ def test_edit():
                         'color': 'green', 'type': 'ink',
                         'company': 'Company1', 'quantity': 1,
                         'link': 'www.example.com', 'notes': 'Fun!'})
-    assert model.edit(database, game) == '1'
-    assert model.view(database, game) == '[1, "game", "Game1", "Company1", 1, \
+    assert model.edit(game) == '1'
+    assert model.view(game) == '[1, "game", "Game1", "Company1", 1, \
 4, 10, 60, "www.example.com", null, "Fun!"]'
-    assert model.edit(database, mini) == '1'
-    assert model.view(database, mini) == '[1, "mini", "Mini1", \
+    assert model.edit(mini) == '1'
+    assert model.view(mini) == '[1, "mini", "Mini1", \
 "Orcs and Goblins", "core", "WFB", "Company1", 20, "painted", \
 "www.example.com", null, "Fun!"]'
-    assert model.edit(database, paint) == '1'
-    assert model.view(database, paint) == '[1, "paint", "Paint1", "green", \
+    assert model.edit(paint) == '1'
+    assert model.view(paint) == '[1, "paint", "Paint1", "green", \
 "ink", "Company1", 1, "www.example.com", "Fun!"]'
 
 
 def test_sqlite_version():
-    assert json.loads(model.sqlite_version(database)).strip().split()[0:2] \
+    assert json.loads(model.sqlite_version()).strip().split()[0:2] \
         == ['SQLite', 'version:']
 
 
@@ -115,15 +120,13 @@ def test_view():
                         'color': 'green', 'type': 'matte',
                         'company': 'Company1', 'quantity': 1,
                         'link': 'www.example.com', 'notes': 'Fun!'})
-    assert model.view(database, game) == '[2, "game", "Game2", "Company1", 1, \
+    assert model.view(game) == '[2, "game", "Game2", "Company1", 1, \
 4, 10, 30, "www.example.com", null, "Fun!"]'
-    assert model.view(database, mini) == '[2, "mini", "Mini2", \
+    assert model.view(mini) == '[2, "mini", "Mini2", \
 "Orcs and Goblins", "core", "WFB", "Company1", 10, "painted", \
 "www.example.com", null, "Fun!"]'
-    assert model.view(database, paint) == '[2, "paint", "Paint2", "green", \
+    assert model.view(paint) == '[2, "paint", "Paint2", "green", \
 "matte", "Company1", 1, "www.example.com", "Fun!"]'
 
 # Set up DB for test run
-# database = ':memory:'
-database = 'mini/test.db'
-setupTestDB(database)
+gestalt.setupTestDB()

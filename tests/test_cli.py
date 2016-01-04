@@ -3,9 +3,7 @@
 import cli
 import gestalt
 
-configfile = 'tests/config4tests.ini'
-api = gestalt.LoadConfig(configfile).api
-# status = gestalt.checkresponse(index)
+api = gestalt.LoadConfig().api
 
 
 def test_dump():

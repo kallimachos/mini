@@ -3,16 +3,16 @@
 import json
 import gestalt
 
-configfile = 'tests/config4tests.ini'
-settings = gestalt.LoadConfig(configfile)
+settings = gestalt.LoadConfig()
 
 
 def test_loadConfig():
     assert settings.protocol == 'http'
-    assert settings.host == 'localhost'
+    assert settings.host == '0.0.0.0'
     assert settings.port == '8080'
-    assert settings.index == 'http://localhost:8080'
-    assert settings.api == 'http://localhost:8080/api'
+    assert settings.index == 'http://0.0.0.0:8080'
+    assert settings.api == 'http://0.0.0.0:8080/api'
+    assert settings.database == 'test.db'
 
 
 def test_checkresponse():
@@ -23,7 +23,6 @@ def test_checkresponse():
 
 
 def test_setupTestDB():
-    database = 'mini/test.db'
-    result = gestalt.setupTestDB(database)
-    assert json.loads(result)[0] == 'BEGIN TRANSACTION;'
-    assert json.loads(result)[-1] == 'COMMIT;'
+    exampleDB = gestalt.setupTestDB()
+    assert json.loads(exampleDB)[0] == 'BEGIN TRANSACTION;'
+    assert json.loads(exampleDB)[-1] == 'COMMIT;'

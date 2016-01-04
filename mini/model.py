@@ -3,10 +3,15 @@
 
 import json
 import sqlite3 as sql
-from os.path import isfile
+from os.path import exists
+
+from gestalt import LoadConfig
+
+settings = LoadConfig()
+database = settings.database
 
 
-def add(database, data):
+def add(data):
     """Add an item to the DB."""
     item = json.loads(data)
     kind = item['kind']
@@ -28,9 +33,9 @@ def add(database, data):
         return(resp)
 
 
-def createDB(database):
+def createDB():
     """Create DB and initialize tables."""
-    if isfile(database) is False:
+    if exists(database) is False:
         con = sql.connect(database)
         with con:
             cur = con.cursor()
@@ -69,12 +74,10 @@ def createDB(database):
                         quantity INT,
                         link TEXT,
                         notes TEXT)""")
-        return(True)
-    else:
-        return(False)
+    return(True)
 
 
-def delete(database, data):
+def delete(data):
     """Delete an item from the DB."""
     item = json.loads(data)
     kind = item['kind']
@@ -92,7 +95,7 @@ def delete(database, data):
         return(resp)
 
 
-def dump(database):
+def dump():
     """
     Return a raw dump of the DB.
 
@@ -107,7 +110,7 @@ def dump(database):
     return(resp)
 
 
-def edit(database, data):
+def edit(data):
     """Edit an item in the DB."""
     item = json.loads(data)
     kind = item['kind']
@@ -132,7 +135,7 @@ def edit(database, data):
         return(resp)
 
 
-def sqlite_version(database):
+def sqlite_version():
     """Return the SQLite version of a database."""
     con = sql.connect(database)
     with con:
@@ -143,7 +146,7 @@ def sqlite_version(database):
         return(resp)
 
 
-def view(database, data):
+def view(data):
     """View an item in the DB."""
     item = json.loads(data)
     kind = item['kind']
@@ -160,17 +163,10 @@ def view(database, data):
         return(resp)
 
 # Specify database file and initialize DB if it does not already exist
-database = 'test.db'
-createDB(database)
+createDB()
 
 if __name__ == '__main__':
     # These statements are for testing only
-    game = json.dumps({'ID': None, 'kind': 'game', 'name': 'Game1',
-                       'company': 'Company1', 'minPlayers': 1,
-                       'maxPlayers': 4, 'age': 10, 'length': 60,
-                       'link': 'www.example.com', 'image': None,
-                       'notes': 'Fun!'})
-    edit(database, game)
-    print(json.loads(sqlite_version(database)) + '\n')
-    for line in json.loads(dump(database)):
+    print(json.loads(sqlite_version()) + '\n')
+    for line in json.loads(dump()):
         print(line)

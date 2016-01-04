@@ -5,8 +5,7 @@ import webtest
 import controller
 import gestalt
 
-configfile = 'tests/config4tests.ini'
-index = gestalt.LoadConfig(configfile).index
+index = gestalt.LoadConfig().index
 
 app = webtest.TestApp(controller.app)
 status = gestalt.checkresponse(index)

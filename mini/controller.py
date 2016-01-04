@@ -117,5 +117,5 @@ def serverfault(code):
 
 
 if __name__ == '__main__':
-    settings = gestalt.LoadConfig('config.ini')
+    settings = gestalt.LoadConfig()
     run(app, host=settings.host, port=settings.port, reloader=True)

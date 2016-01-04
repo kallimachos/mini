@@ -3,11 +3,10 @@
 # import gestalt
 # import gui
 #
-# configfile = 'tests/config4tests.ini'
-# api = gestalt.LoadConfig(configfile).api
+# api = gestalt.LoadConfig().api
 # # status = gestalt.checkresponse(index)
 #
 #
 # def test_dump():
 #     assert gui.dump(api) is True
-#     assert gui.dump('http://localhost:8080/BADAPI') is False
+#     assert gui.dump('http://0.0.0.0:8080/BADAPI') is False
