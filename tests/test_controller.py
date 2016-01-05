@@ -34,8 +34,3 @@ def test_missing():
 def test_error():
     if status == 200:
         assert app.get(index + '500').status_int == 200
-
-
-def test_helloname():
-    if status == 200:
-        assert app.get(index + '/hello/Brian').status_int == 200

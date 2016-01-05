@@ -128,5 +128,6 @@ def test_view():
     assert model.view(paint) == '[2, "paint", "Paint2", "green", \
 "matte", "Company1", 1, "www.example.com", "Fun!"]'
 
+
 # Set up DB for test run
 gestalt.setupTestDB()

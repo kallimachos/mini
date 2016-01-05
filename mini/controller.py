@@ -56,12 +56,6 @@ def get_css():
     return static_file('mini.css', root='static/')
 
 
-@app.route('/hello/<name>', method='GET')
-def helloname(name):
-    """Return hello_name template for testing."""
-    return(template('hello_name', name=name))
-
-
 @app.route('/dump', method='GET')
 @app.route('/api/dump', method='GET')
 def dump():
@@ -90,7 +84,7 @@ def endpoints():
         >>> endpoints()  # doctest: +NORMALIZE_WHITESPACE
         '[["GET", "/"], ["GET", "/api/dump"], ["GET", "/api/endpoints"],
         ["GET", "/dump"], ["GET", "/endpoints"], ["GET", "/favicon.ico"],
-        ["GET", "/hello/<name>"], ["GET", "/mini.css"]]'
+        ["GET", "/mini.css"]]'
     """
     routes = []
     for route in app.routes:
