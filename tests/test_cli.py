@@ -29,8 +29,6 @@ def test_clear():
 def test_dump():
     assert cli.dump()[0] == 'BEGIN TRANSACTION;'
     assert cli.dump()[-1] == 'COMMIT;'
-    # assert prompt.onecmd('dump') == 'BEGIN TRANSACTION;'
-    # assert prompt.onecmd('dump')[-1] == 'COMMIT;'
 
 
 def test_emptyline():
