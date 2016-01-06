@@ -43,14 +43,6 @@ def dump(api):
 
     :param api: the API endpoint root
     :type api: string
-    :example:
-
-        >>> dump('http://localhost:8080/api')  # doctest: +SKIP
-        This is a string that represents a dumped DB
-        True
-        >>> dump('http://localhost:8080/BADAPI')  # doctest: +SKIP
-        Expecting value: line 1 column 1 (char 0)
-        False
     """
     output = callapi(api, 'get', 'dump')
     print(output[0])
