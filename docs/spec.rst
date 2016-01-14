@@ -55,7 +55,7 @@ View
 
 - cli.py - argparse
 - gui.py - tkinter
-- web - HTML, CSS, mobile-friendly
+- web - HTML, CSS, mobile-friendly, bottle templates
 - Android
 
 
@@ -64,6 +64,7 @@ Controller
 
 - controller.py
 - REST API (bottle)
+- routes for web view
 
 tables
 ~~~~~~
@@ -115,3 +116,32 @@ Features
 - Save DB/reports as spreadsheets
 - Print
 - Authentication
+
+
+To Do
+-----
+- CLI features
+  - Add
+  - Edit
+  - Delete
+  - Search
+  - Reports
+- Controller features
+  - Add
+  - Edit
+  - Delete
+  - Search
+  - Reports
+- GUI features
+  - Add
+  - Edit
+  - Delete
+  - Search
+  - Reports
+- Web features
+  - Add
+  - Edit
+  - Delete
+  - Search
+  - Reports
+- Add image upload capabilities
