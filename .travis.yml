@@ -2,6 +2,8 @@ language: python
 python:
   - "3.4"
 install:
+  - pip install bottle
+  - pip install requests
   - pip install tox
 before_script:
   - python mini/controller.py
