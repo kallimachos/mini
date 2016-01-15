@@ -2,6 +2,7 @@
 """Controller logic for mini."""
 
 import json
+from os import path
 
 import gestalt
 import model
@@ -34,6 +35,9 @@ app = Bottle()
 # append to bottle.TEMPLATE_PATH so views are correctly found by pytest
 TEMPLATE_PATH.append('mini/views/')
 
+# set static_path relative to this file
+static_path = path.abspath(path.join(path.dirname(__file__), 'static'))
+
 # set debug(True) for testing
 debug(True)
 
@@ -47,13 +51,13 @@ def index():
 @app.route('/favicon.ico', method='GET')
 def get_favicon():
     """Return the favicon."""
-    return static_file('favicon.ico', root='static/')
+    return static_file('favicon.ico', root=static_path)
 
 
 @app.route('/mini.css', method='GET')
 def get_css():
     """Return the stylesheet."""
-    return static_file('mini.css', root='static/')
+    return static_file('mini.css', root=static_path)
 
 
 @app.route('/dump', method='GET')
