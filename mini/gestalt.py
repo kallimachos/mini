@@ -1,6 +1,7 @@
 #!/bin/python3
 """Utility functions."""
 
+import configparser
 import json
 import logging
 import sqlite3 as sql
@@ -8,19 +9,6 @@ from os import remove
 from os.path import basename, exists
 
 import requests
-
-try:
-    import configparser
-    """
-    >>> import configparser
-    """
-except:
-    import ConfigParser as configparser
-    """
-    Handle deprecated module name for Travis CI.
-
-    >>> import ConfigParser as configparser
-    """
 
 
 class LoadConfig():
@@ -31,6 +19,8 @@ class LoadConfig():
         configfile = 'config.ini'
         if exists(configfile) is False:
             configfile = 'mini/' + configfile
+            if exists(configfile) is False:
+                configfile = '../' + configfile
         config = configparser.ConfigParser()
         config.read(configfile)
         protocol = config['DEFAULT']['protocol']

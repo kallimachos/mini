@@ -121,27 +121,35 @@ Features
 To Do
 -----
 - CLI features
+
   - Add
   - Edit
   - Delete
   - Search
   - Reports
+
 - Controller features
+
   - Add
   - Edit
   - Delete
   - Search
   - Reports
+
 - GUI features
+
   - Add
   - Edit
   - Delete
   - Search
   - Reports
+
 - Web features
+
   - Add
   - Edit
   - Delete
   - Search
   - Reports
+
 - Add image upload capabilities
