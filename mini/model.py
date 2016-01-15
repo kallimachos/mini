@@ -168,5 +168,6 @@ createDB()
 if __name__ == '__main__':
     # These statements are for testing only
     print(json.loads(sqlite_version()) + '\n')
-    for line in json.loads(dump()):
-        print(line)
+    # createDB()
+    # for line in json.loads(dump()):
+    #     print(line)

@@ -100,40 +100,49 @@ class MainMenu(cmd.Cmd):
         >>> MainMenu().onecmd('dump')  # doctest: +NORMALIZE_WHITESPACE
         BEGIN TRANSACTION;
         CREATE TABLE Game
-                        (ID INTEGER PRIMARY KEY,
-                        kind TEXT NOT NULL,
-                        name TEXT NOT NULL,
-                        company TEXT,
-                        minplayers INT,
-                        maxplayers INT,
-                        age INT,
-                        length INT,
-                        link TEXT,
-                        image BLOB,
-                        notes TEXT);
+                            (ID INTEGER PRIMARY KEY,
+                            kind TEXT NOT NULL,
+                            name TEXT NOT NULL,
+                            company TEXT,
+                            minplayers INT,
+                            maxplayers INT,
+                            age INT,
+                            length INT,
+                            link TEXT,
+                            image BLOB,
+                            notes TEXT);
+        INSERT INTO "Game" VALUES(1,'game','Game1','Company1',1,4,10,30,'www.example.com',NULL,'Fun!');
+        INSERT INTO "Game" VALUES(2,'game','Game2','Company1',1,4,10,30,'www.example.com',NULL,'Fun!');
+        INSERT INTO "Game" VALUES(3,'game','Game3','Company1',1,4,10,30,'www.example.com',NULL,'Fun!');
         CREATE TABLE Mini
-                        (ID INTEGER PRIMARY KEY,
-                        kind TEXT NOT NULL,
-                        name TEXT NOT NULL,
-                        army TEXT,
-                        type TEXT,
-                        system TEXT,
-                        company TEXT,
-                        quantity INT,
-                        status TEXT,
-                        link TEXT,
-                        image BLOB,
-                        notes TEXT);
+                            (ID INTEGER PRIMARY KEY,
+                            kind TEXT NOT NULL,
+                            name TEXT NOT NULL,
+                            army TEXT,
+                            type TEXT,
+                            system TEXT,
+                            company TEXT,
+                            quantity INT,
+                            status TEXT,
+                            link TEXT,
+                            image BLOB,
+                            notes TEXT);
+        INSERT INTO "Mini" VALUES(1,'mini','Mini1','Orcs and Goblins','core','WFB','Company1',10,'painted','www.example.com',NULL,'Fun!');
+        INSERT INTO "Mini" VALUES(2,'mini','Mini2','Orcs and Goblins','core','WFB','Company1',10,'painted','www.example.com',NULL,'Fun!');
+        INSERT INTO "Mini" VALUES(3,'mini','Mini3','Orcs and Goblins','core','WFB','Company1',10,'painted','www.example.com',NULL,'Fun!');
         CREATE TABLE Paint
-                        (ID INTEGER PRIMARY KEY,
-                        kind TEXT NOT NULL,
-                        name TEXT NOT NULL,
-                        color TEXT,
-                        type TEXT,
-                        company TEXT,
-                        quantity INT,
-                        link TEXT,
-                        notes TEXT);
+                            (ID INTEGER PRIMARY KEY,
+                            kind TEXT NOT NULL,
+                            name TEXT NOT NULL,
+                            color TEXT,
+                            type TEXT,
+                            company TEXT,
+                            quantity INT,
+                            link TEXT,
+                            notes TEXT);
+        INSERT INTO "Paint" VALUES(1,'paint','Paint1','green','matte','Company1',1,'www.example.com','Fun!');
+        INSERT INTO "Paint" VALUES(2,'paint','Paint2','green','matte','Company1',1,'www.example.com','Fun!');
+        INSERT INTO "Paint" VALUES(3,'paint','Paint3','green','matte','Company1',1,'www.example.com','Fun!');
         COMMIT;
         """
         dump()

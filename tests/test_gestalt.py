@@ -12,7 +12,6 @@ def test_loadConfig():
     assert settings.port == '8080'
     assert settings.index == 'http://0.0.0.0:8080'
     assert settings.api == 'http://0.0.0.0:8080/api'
-    assert settings.database == 'test.db'
 
 
 def test_checkresponse():

@@ -5,8 +5,7 @@ import configparser
 import json
 import logging
 import sqlite3 as sql
-from os import remove
-from os.path import basename, exists
+from os import path, remove
 
 import requests
 
@@ -16,11 +15,8 @@ class LoadConfig():
 
     def __init__(self):
         """Read config file and set object values."""
-        configfile = 'config.ini'
-        if exists(configfile) is False:
-            configfile = 'mini/' + configfile
-            if exists(configfile) is False:
-                configfile = '../' + configfile
+        configfile = path.abspath(path.join(path.dirname(__file__),
+                                            'config.ini'))
         config = configparser.ConfigParser()
         config.read(configfile)
         protocol = config['DEFAULT']['protocol']
@@ -28,8 +24,7 @@ class LoadConfig():
         port = config['DEFAULT']['port']
         api = config['DEFAULT']['api']
         database = config['DEFAULT']['database']
-        if exists(database) is False:
-            database = 'mini/' + database
+        database = path.abspath(path.join(path.dirname(__file__), database))
         index = protocol + '://' + host + ':' + port
         api = index + '/' + api
         self.settings = {'protocol': protocol, 'host': host, 'port': port,
@@ -71,7 +66,7 @@ def checkresponse(url):
 def setupTestDB():
     """Create test database with example data."""
     database = LoadConfig().database
-    if basename(database) == 'test.db':
+    if path.basename(database) == 'test.db':
         remove(database)
     game1 = {'ID': None, 'kind': 'game', 'name': 'Game1',
              'company': 'Company1', 'minPlayers': 1, 'maxPlayers': 4,
