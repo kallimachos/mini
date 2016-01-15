@@ -97,7 +97,7 @@ class MainMenu(cmd.Cmd):
     def do_dump(self, args):
         """Dump database.
 
-        >>> MainMenu().onecmd('dump')  # doctest: +NORMALIZE_WHITESPACE
+        >>> MainMenu().onecmd('dump')  # NOQA  # doctest: +NORMALIZE_WHITESPACE
         BEGIN TRANSACTION;
         CREATE TABLE Game
                             (ID INTEGER PRIMARY KEY,

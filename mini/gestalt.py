@@ -63,7 +63,7 @@ def checkresponse(url):
         return(1)
 
 
-def setupTestDB():
+def setuptestdb():
     """Create test database with example data."""
     database = LoadConfig().database
     if path.basename(database) == 'test.db':

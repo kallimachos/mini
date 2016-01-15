@@ -33,7 +33,7 @@ def add(data):
         return(resp)
 
 
-def createDB():
+def createdb():
     """Create DB and initialize tables."""
     if exists(database) is False:
         con = sql.connect(database)
@@ -163,11 +163,10 @@ def view(data):
         return(resp)
 
 # Specify database file and initialize DB if it does not already exist
-createDB()
+createdb()
 
 if __name__ == '__main__':
     # These statements are for testing only
     print(json.loads(sqlite_version()) + '\n')
-    # createDB()
-    # for line in json.loads(dump()):
-    #     print(line)
+    for line in json.loads(dump()):
+        print(line)

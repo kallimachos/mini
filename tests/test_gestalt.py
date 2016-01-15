@@ -6,7 +6,7 @@ import gestalt
 settings = gestalt.LoadConfig()
 
 
-def test_loadConfig():
+def test_loadconfig():
     assert settings.protocol == 'http'
     assert settings.host == '0.0.0.0'
     assert settings.port == '8080'
@@ -21,7 +21,7 @@ def test_checkresponse():
         assert gestalt.checkresponse('failURL') == 1
 
 
-def test_setupTestDB():
-    exampleDB = gestalt.setupTestDB()
-    assert json.loads(exampleDB)[0] == 'BEGIN TRANSACTION;'
-    assert json.loads(exampleDB)[-1] == 'COMMIT;'
+def test_setuptestdb():
+    exampledb = gestalt.setuptestdb()
+    assert json.loads(exampledb)[0] == 'BEGIN TRANSACTION;'
+    assert json.loads(exampledb)[-1] == 'COMMIT;'

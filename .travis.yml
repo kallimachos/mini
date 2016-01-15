@@ -6,7 +6,6 @@ install:
   - pip install requests
   - pip install tox
 before_script:
-  - python mini/model.py
   - python mini/controller.py &
   - sleep 5
 script:

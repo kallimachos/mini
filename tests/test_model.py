@@ -34,9 +34,9 @@ def test_add():
 "matte", "Company1", 1, "www.example.com", "Fun!"]'
 
 
-def test_createDB():
-    exampleDB = model.createDB()
-    assert exampleDB is True
+def test_createdb():
+    exampledb = model.createdb()
+    assert exampledb is True
 
 
 def test_delete():
@@ -130,4 +130,4 @@ def test_view():
 
 
 # Set up DB for test run
-gestalt.setupTestDB()
+gestalt.setuptestdb()
