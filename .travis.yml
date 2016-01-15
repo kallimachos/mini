@@ -6,7 +6,7 @@ install:
   - pip install requests
   - pip install tox
 before_script:
-  - python mini/controller.py
+  - python mini/controller.py &
   - sleep 5
 script:
   - tox
