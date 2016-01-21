@@ -6,7 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
-GH_PAGES_SOURCES = docs Makefile
+GH_PAGES_SOURCES = docs
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
@@ -196,11 +196,12 @@ pseudoxml:
 ghpages:
 	git checkout gh-pages
 	rm -rf $(BUILDDIR) _static _templates
+	cd ..
 	git checkout master $(GH_PAGES_SOURCES)
 	git reset HEAD
-	make html
-	mv -fv $(BUILDDIR)/html/* ./
-	rm -rf $(GH_PAGES_SOURCES) $(BUILDDIR)
+	cd docs/ && make html
+	mv -fv $(BUILDDIR)/html/* ../
+	cd .. && rm -rf $(GH_PAGES_SOURCES)
 	git add -A
 	git ci -m "Generated gh-pages for `git log master -1 --pretty=short \
 		--abbrev-commit`" && git push origin gh-pages ; git checkout master
