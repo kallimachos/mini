@@ -195,8 +195,8 @@ pseudoxml:
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
 ghpages:
-	cd $(HOMEDIR) && git checkout gh-pages && git checkout master $(GH_PAGES_SOURCES)
-	git reset HEAD
+	cd $(HOMEDIR) && git checkout gh-pages && \
+	git checkout master $(GH_PAGES_SOURCES) && git reset HEAD
 	make html
 	mv -fv $(BUILDDIR)/html/* ../
 	cd $(HOMEDIR) && rm -rf $(GH_PAGES_SOURCES)
