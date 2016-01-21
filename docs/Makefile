@@ -7,6 +7,7 @@ SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
 DOCDIR        = docs
+HOMEDIR       = `git rev-parse --show-toplevel`
 GH_PAGES_SOURCES = docs mini
 
 # User-friendly check for sphinx-build
@@ -195,8 +196,7 @@ pseudoxml:
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
 ghpages:
-	cd ..
-	git checkout gh-pages
+	cd $(HOMEDIR) && git checkout gh-pages
 	pwd
 	#git checkout master $(GH_PAGES_SOURCES)
 	#git reset HEAD
