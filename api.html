@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to Mini’s documentation! &mdash; Mini 0 documentation</title>
+  <title>REST API &mdash; Mini 0 documentation</title>
   
 
   
@@ -30,8 +30,9 @@
   
 
   
-    <link rel="top" title="Mini 0 documentation" href="#"/>
-        <link rel="next" title="Specification" href="spec.html"/> 
+    <link rel="top" title="Mini 0 documentation" href="index.html"/>
+        <link rel="next" title="CLI client" href="cli.html"/>
+        <link rel="prev" title="Specification" href="spec.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Mini
+            <a href="index.html" class="icon icon-home"> Mini
           
 
           
@@ -80,9 +81,9 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="spec.html">Specification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">CLI client</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gui.html">GUI client</a></li>
 <li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a></li>
@@ -101,7 +102,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="#">Mini</a>
+        <a href="index.html">Mini</a>
       </nav>
 
 
@@ -116,13 +117,13 @@
 
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="#">Docs</a> &raquo;</li>
+    <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Welcome to Mini&#8217;s documentation!</li>
+    <li>REST API</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/api.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -132,56 +133,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-mini-s-documentation">
-<h1>Welcome to Mini&#8217;s documentation!<a class="headerlink" href="#welcome-to-mini-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="spec.html">Specification</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#language">Language</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#testing-logging-and-configuration">Testing, logging, and configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#version-control-and-ci">Version control and CI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#documentation">Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#hosting">Hosting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#model">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#view">View</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#controller">Controller</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#to-do">To Do</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI client</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cli.html#options">Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cli.html#module-cli">Code listing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI client</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gui.html#options">Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gui.html#module-gui">Code listing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="controller.html#module-controller">Code listing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="model.html#database-layout">Database layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model.html#module-model">Code listing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="gestalt.html">Gestalt</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gestalt.html#module-gestalt">Code listing</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="section" id="index">
-<h2>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
-</ul>
-</div>
+  <div class="section" id="rest-api">
+<h1>REST API<a class="headerlink" href="#rest-api" title="Permalink to this headline">¶</a></h1>
+<p>Description of the REST API for <strong>mini</strong>.</p>
 </div>
 
 
@@ -191,8 +145,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="spec.html" class="btn btn-neutral float-right" title="Specification" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="cli.html" class="btn btn-neutral float-right" title="CLI client" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="spec.html" class="btn btn-neutral" title="Specification" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

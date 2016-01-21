@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Specification &mdash; Mini 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mini 0 documentation" href="index.html"/>
+        <link rel="next" title="REST API" href="api.html"/>
+        <link rel="prev" title="Welcome to Mini’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mini
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Specification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#language">Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-logging-and-configuration">Testing, logging, and configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-control-and-ci">Version control and CI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hosting">Hosting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model">Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#view">View</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#controller">Controller</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tables">tables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#to-do">To Do</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gestalt.html">Gestalt</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mini</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Specification</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/spec.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="specification">
+<h1>Specification<a class="headerlink" href="#specification" title="Permalink to this headline">¶</a></h1>
+<p>An application for recording a collection of miniature figures, books, and
+games from different systems and companies. Local clients sync with the remote
+server through a web-based REST API.</p>
+<div class="section" id="language">
+<h2>Language<a class="headerlink" href="#language" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Python 3.4</li>
+</ul>
+</div>
+<div class="section" id="testing-logging-and-configuration">
+<h2>Testing, logging, and configuration<a class="headerlink" href="#testing-logging-and-configuration" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>tox</li>
+<li>pytest</li>
+<li>pytest-cov - add badge to README based on tests</li>
+<li>flake8</li>
+<li>logging</li>
+<li>configparser</li>
+</ul>
+</div>
+<div class="section" id="version-control-and-ci">
+<h2>Version control and CI<a class="headerlink" href="#version-control-and-ci" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>GitHub</li>
+<li>Travis</li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>RST</li>
+<li>Sphinx autodoc</li>
+</ul>
+</div>
+<div class="section" id="hosting">
+<h2>Hosting<a class="headerlink" href="#hosting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Rackspace public cloud</li>
+<li>OpenShift</li>
+</ul>
+</div>
+<div class="section" id="model">
+<h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>model.py</li>
+<li>collection.sqlite</li>
+</ul>
+</div>
+<div class="section" id="view">
+<h2>View<a class="headerlink" href="#view" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>cli.py - argparse</li>
+<li>gui.py - tkinter</li>
+<li>web - HTML, CSS, mobile-friendly, bottle templates</li>
+<li>Android</li>
+</ul>
+</div>
+<div class="section" id="controller">
+<h2>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>controller.py</li>
+<li>REST API (bottle)</li>
+<li>routes for web view</li>
+</ul>
+<div class="section" id="tables">
+<h3>tables<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>game (aka board games)<ul>
+<li>Name</li>
+<li>Company</li>
+<li>Number of players</li>
+<li>Time to play in minutes</li>
+<li>Age range</li>
+<li>Link (to webpage, boardgamegeek, vel sim.)</li>
+<li>Image</li>
+<li>Notes</li>
+<li>methods: add, edit, delete</li>
+</ul>
+</li>
+<li>mini<ul>
+<li>Name</li>
+<li>Army</li>
+<li>Unit type (e.g. hero, core, etc.)</li>
+<li>System</li>
+<li>Company</li>
+<li>Quantity</li>
+<li>Status (painted, unpainted, sprue, bitz, NIB)</li>
+<li>Link (to webpage, GW, vel sim.)</li>
+<li>Image</li>
+<li>Notes</li>
+<li>Image of model</li>
+<li>methods: add, edit, delete</li>
+</ul>
+</li>
+<li>paint<ul>
+<li>Name</li>
+<li>Colour (= primary colour, so one could, e.g., look at all shades of blue)</li>
+<li>Type (metallic, wash, ink, matte)</li>
+<li>Company</li>
+<li>Notes</li>
+<li>methods: add, edit, delete</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Load/Download DB</li>
+<li>Sync local DB with remote</li>
+<li>Add/edit list of companies, systems, armies, unit types, etc.</li>
+<li>Upload images</li>
+<li>Search</li>
+<li>Reports</li>
+<li>Save DB/reports as spreadsheets</li>
+<li>Print</li>
+<li>Authentication</li>
+</ul>
+</div>
+<div class="section" id="to-do">
+<h2>To Do<a class="headerlink" href="#to-do" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>CLI features<ul>
+<li>Add</li>
+<li>Edit</li>
+<li>Delete</li>
+<li>Search</li>
+<li>Reports</li>
+</ul>
+</li>
+<li>Controller features<ul>
+<li>Add</li>
+<li>Edit</li>
+<li>Delete</li>
+<li>Search</li>
+<li>Reports</li>
+</ul>
+</li>
+<li>GUI features<ul>
+<li>Add</li>
+<li>Edit</li>
+<li>Delete</li>
+<li>Search</li>
+<li>Reports</li>
+</ul>
+</li>
+<li>Web features<ul>
+<li>Add</li>
+<li>Edit</li>
+<li>Delete</li>
+<li>Search</li>
+<li>Reports</li>
+</ul>
+</li>
+<li>Add image upload capabilities</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api.html" class="btn btn-neutral float-right" title="REST API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to Mini’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Brian Moss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
