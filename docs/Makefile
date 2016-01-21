@@ -197,10 +197,12 @@ pseudoxml:
 ghpages:
 	cd $(HOMEDIR) && git checkout gh-pages && \
 	git checkout master $(GH_PAGES_SOURCES) && git reset HEAD
-	make html
-	mv -fv $(BUILDDIR)/html/* ../
-	cd $(HOMEDIR) && rm -rf $(GH_PAGES_SOURCES)
-	git add -A
-	git ci -m "Generated gh-pages for `git log master -1 --pretty=short \
-		--abbrev-commit`" && git push origin gh-pages ; git checkout master
-	@echo "Docs published to http://kallimachos.github.io/mini/"
+	pwd
+	ls
+	#make html
+	#mv -fv $(BUILDDIR)/html/* ../
+	#cd $(HOMEDIR) && rm -rf $(GH_PAGES_SOURCES)
+	#git add -A
+	#git ci -m "Generated gh-pages for `git log master -1 --pretty=short \
+	#	--abbrev-commit`" && git push origin gh-pages ; git checkout master
+	#@echo "Docs published to http://kallimachos.github.io/mini/"
