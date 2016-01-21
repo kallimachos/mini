@@ -6,7 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
-HOMEDIR       = `git rev-parse --show-toplevel`
+DOCDIR        = docs
 GH_PAGES_SOURCES = docs mini
 
 # User-friendly check for sphinx-build
@@ -195,17 +195,14 @@ pseudoxml:
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
 ghpages:
-	cd "$(HOMEDIR)"
+	cd ..
 	git checkout gh-pages
-	@echo "$(HOMEDIR)"
-	#rm -rf $(BUILDDIR) _static _templates
-	#cd
-	#git checkout master $(GH_PAGES_SOURCES)
-	#git reset HEAD
-	#cd docs/ && make html
-	#mv -fv $(BUILDDIR)/html/* ../
-	#cd .. && rm -rf $(GH_PAGES_SOURCES)
-	#git add -A
-	#git ci -m "Generated gh-pages for `git log master -1 --pretty=short \
-	#	--abbrev-commit`" && git push origin gh-pages ; git checkout master
-	#@echo "Docs published to http://kallimachos.github.io/mini/"
+	git checkout master $(GH_PAGES_SOURCES)
+	git reset HEAD
+	cd $(DOCDIR) && make html
+	mv -fv $(BUILDDIR)/html/* ../
+	cd .. && rm -rf $(GH_PAGES_SOURCES)
+	git add -A
+	git ci -m "Generated gh-pages for `git log master -1 --pretty=short \
+		--abbrev-commit`" && git push origin gh-pages ; git checkout master
+	@echo "Docs published to http://kallimachos.github.io/mini/"
