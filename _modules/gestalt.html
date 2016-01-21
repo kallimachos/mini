@@ -1,0 +1,372 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>gestalt &mdash; Mini 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mini 0 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Mini
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../spec.html">Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gui.html">GUI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gestalt.html">Gestalt</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Mini</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>gestalt</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for gestalt</h1><div class="highlight"><pre>
+<span class="ch">#!/bin/python3</span>
+<span class="sd">&quot;&quot;&quot;Utility functions.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">configparser</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span> <span class="kn">as</span> <span class="nn">sql</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">remove</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+
+<div class="viewcode-block" id="LoadConfig"><a class="viewcode-back" href="../gestalt.html#gestalt.LoadConfig">[docs]</a><span class="k">class</span> <span class="nc">LoadConfig</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Expose configuration values from configfile.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read config file and set object values.&quot;&quot;&quot;</span>
+        <span class="n">configfile</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span>
+                                            <span class="s1">&#39;config.ini&#39;</span><span class="p">))</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">configfile</span><span class="p">)</span>
+        <span class="n">protocol</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">][</span><span class="s1">&#39;protocol&#39;</span><span class="p">]</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">][</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">][</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
+        <span class="n">api</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">][</span><span class="s1">&#39;api&#39;</span><span class="p">]</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">][</span><span class="s1">&#39;database&#39;</span><span class="p">]</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="n">database</span><span class="p">))</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">protocol</span> <span class="o">+</span> <span class="s1">&#39;://&#39;</span> <span class="o">+</span> <span class="n">host</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">port</span>
+        <span class="n">api</span> <span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">api</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">settings</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;protocol&#39;</span><span class="p">:</span> <span class="n">protocol</span><span class="p">,</span> <span class="s1">&#39;host&#39;</span><span class="p">:</span> <span class="n">host</span><span class="p">,</span> <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="n">port</span><span class="p">,</span>
+                         <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="n">index</span><span class="p">,</span> <span class="s1">&#39;api&#39;</span><span class="p">:</span> <span class="n">api</span><span class="p">,</span> <span class="s1">&#39;database&#39;</span><span class="p">:</span> <span class="n">database</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;protocol&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;api&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">[</span><span class="s1">&#39;database&#39;</span><span class="p">]</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="checkresponse"><a class="viewcode-back" href="../gestalt.html#gestalt.checkresponse">[docs]</a><span class="k">def</span> <span class="nf">checkresponse</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Confirm connection to the server.</span>
+
+<span class="sd">    :param url: check response from this URL</span>
+<span class="sd">    :type url: string</span>
+<span class="sd">    :returns: server response code</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    :example:</span>
+
+<span class="sd">        &gt;&gt;&gt; checkresponse(&#39;http://localhost:8080/&#39;) # doctest: +SKIP</span>
+<span class="sd">        200</span>
+<span class="sd">        &gt;&gt;&gt; checkresponse(&#39;http://localhost:8080/404&#39;) # doctest: +SKIP</span>
+<span class="sd">        404</span>
+<span class="sd">        &gt;&gt;&gt; checkresponse(&#39;&#39;)</span>
+<span class="sd">        1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;An error occured:</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="setuptestdb"><a class="viewcode-back" href="../gestalt.html#gestalt.setuptestdb">[docs]</a><span class="k">def</span> <span class="nf">setuptestdb</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create test database with example data.&quot;&quot;&quot;</span>
+    <span class="n">database</span> <span class="o">=</span> <span class="n">LoadConfig</span><span class="p">()</span><span class="o">.</span><span class="n">database</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">database</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;test.db&#39;</span><span class="p">:</span>
+        <span class="n">remove</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="n">game1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;game&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Game1&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;minPlayers&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;maxPlayers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+             <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;length&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+             <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">game2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;game&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Game2&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;minPlayers&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;maxPlayers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+             <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;length&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+             <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">game3</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;game&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Game3&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;minPlayers&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;maxPlayers&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+             <span class="s1">&#39;age&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;length&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+             <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">games</span> <span class="o">=</span> <span class="p">(</span><span class="n">game1</span><span class="p">,</span> <span class="n">game2</span><span class="p">,</span> <span class="n">game3</span><span class="p">)</span>
+
+    <span class="n">mini1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;mini&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Mini1&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;army&#39;</span><span class="p">:</span> <span class="s1">&#39;Orcs and Goblins&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;core&#39;</span><span class="p">,</span> <span class="s1">&#39;system&#39;</span><span class="p">:</span> <span class="s1">&#39;WFB&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;painted&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+             <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">mini2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;mini&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Mini2&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;army&#39;</span><span class="p">:</span> <span class="s1">&#39;Orcs and Goblins&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;core&#39;</span><span class="p">,</span> <span class="s1">&#39;system&#39;</span><span class="p">:</span> <span class="s1">&#39;WFB&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;painted&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+             <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">mini3</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;mini&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Mini3&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;army&#39;</span><span class="p">:</span> <span class="s1">&#39;Orcs and Goblins&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;core&#39;</span><span class="p">,</span> <span class="s1">&#39;system&#39;</span><span class="p">:</span> <span class="s1">&#39;WFB&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;status&#39;</span><span class="p">:</span> <span class="s1">&#39;painted&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+             <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">minis</span> <span class="o">=</span> <span class="p">(</span><span class="n">mini1</span><span class="p">,</span> <span class="n">mini2</span><span class="p">,</span> <span class="n">mini3</span><span class="p">)</span>
+
+    <span class="n">paint1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;paint&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Paint1&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;matte&#39;</span><span class="p">,</span> <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">paint2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;paint&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Paint2&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;matte&#39;</span><span class="p">,</span> <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">paint3</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ID&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;kind&#39;</span><span class="p">:</span> <span class="s1">&#39;paint&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Paint3&#39;</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;matte&#39;</span><span class="p">,</span> <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="s1">&#39;Company1&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+              <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="s1">&#39;www.example.com&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">:</span> <span class="s1">&#39;Fun!&#39;</span><span class="p">}</span>
+    <span class="n">paints</span> <span class="o">=</span> <span class="p">(</span><span class="n">paint1</span><span class="p">,</span> <span class="n">paint2</span><span class="p">,</span> <span class="n">paint3</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;Create DB and initialize tables with values.&quot;&quot;&quot;</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;CREATE TABLE Game</span>
+<span class="s2">                    (ID INTEGER PRIMARY KEY,</span>
+<span class="s2">                    kind TEXT NOT NULL,</span>
+<span class="s2">                    name TEXT NOT NULL,</span>
+<span class="s2">                    company TEXT,</span>
+<span class="s2">                    minplayers INT,</span>
+<span class="s2">                    maxplayers INT,</span>
+<span class="s2">                    age INT,</span>
+<span class="s2">                    length INT,</span>
+<span class="s2">                    link TEXT,</span>
+<span class="s2">                    image BLOB,</span>
+<span class="s2">                    notes TEXT)&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;CREATE TABLE Mini</span>
+<span class="s2">                    (ID INTEGER PRIMARY KEY,</span>
+<span class="s2">                    kind TEXT NOT NULL,</span>
+<span class="s2">                    name TEXT NOT NULL,</span>
+<span class="s2">                    army TEXT,</span>
+<span class="s2">                    type TEXT,</span>
+<span class="s2">                    system TEXT,</span>
+<span class="s2">                    company TEXT,</span>
+<span class="s2">                    quantity INT,</span>
+<span class="s2">                    status TEXT,</span>
+<span class="s2">                    link TEXT,</span>
+<span class="s2">                    image BLOB,</span>
+<span class="s2">                    notes TEXT)&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;CREATE TABLE Paint</span>
+<span class="s2">                    (ID INTEGER PRIMARY KEY,</span>
+<span class="s2">                    kind TEXT NOT NULL,</span>
+<span class="s2">                    name TEXT NOT NULL,</span>
+<span class="s2">                    color TEXT,</span>
+<span class="s2">                    type TEXT,</span>
+<span class="s2">                    company TEXT,</span>
+<span class="s2">                    quantity INT,</span>
+<span class="s2">                    link TEXT,</span>
+<span class="s2">                    notes TEXT)&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM Game&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">game</span> <span class="ow">in</span> <span class="n">games</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT INTO Game VALUES (:ID, :kind, :name, </span><span class="se">\</span>
+<span class="s1">                        :company,:minPlayers, :maxPlayers, :age, :length, </span><span class="se">\</span>
+<span class="s1">                        :link, :image, :notes)&#39;</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM Mini&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">mini</span> <span class="ow">in</span> <span class="n">minis</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT INTO Mini VALUES (:ID, :kind, :name, :army, </span><span class="se">\</span>
+<span class="s1">                        :type, :system, :company, :quantity, :status, :link, </span><span class="se">\</span>
+<span class="s1">                        :image, :notes)&#39;</span><span class="p">,</span> <span class="n">mini</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM Paint&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">paint</span> <span class="ow">in</span> <span class="n">paints</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT INTO Paint VALUES (:ID, :kind, :name, :color, </span><span class="se">\</span>
+<span class="s1">                        :type, :company, :quantity, :link, :notes)&#39;</span><span class="p">,</span> <span class="n">paint</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">con</span><span class="o">.</span><span class="n">iterdump</span><span class="p">():</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">LoadConfig</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">settings</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Brian Moss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

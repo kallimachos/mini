@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cli &mdash; Mini 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mini 0 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Mini
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../spec.html">Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gui.html">GUI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gestalt.html">Gestalt</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Mini</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>cli</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cli</h1><div class="highlight"><pre>
+<span class="ch">#!/bin/python3</span>
+<span class="sd">&quot;&quot;&quot;CLI client for interacting with the mini REST API.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">cmd</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">import</span> <span class="nn">gestalt</span>
+
+<span class="c1"># set api url</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">gestalt</span><span class="o">.</span><span class="n">LoadConfig</span><span class="p">()</span><span class="o">.</span><span class="n">api</span>
+
+
+<div class="viewcode-block" id="callapi"><a class="viewcode-back" href="../cli.html#cli.callapi">[docs]</a><span class="k">def</span> <span class="nf">callapi</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">call</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Call the mini REST API.</span>
+
+<span class="sd">    :param api: the API endpoint root</span>
+<span class="sd">    :type api: string</span>
+<span class="sd">    :param call: the function call</span>
+<span class="sd">    :type api: string</span>
+<span class="sd">    :param method: the HTTP method</span>
+<span class="sd">    :type api: string</span>
+<span class="sd">    :returns: API response</span>
+<span class="sd">    :rtype: JSON</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;get&#39;</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">call</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;put&#39;</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;post&#39;</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;delete&#39;</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="dump"><a class="viewcode-back" href="../cli.html#cli.dump">[docs]</a><span class="k">def</span> <span class="nf">dump</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print a raw dump of the DB.</span>
+
+<span class="sd">    :param api: the API endpoint root</span>
+<span class="sd">    :type api: string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">callapi</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;dump&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="endpoints"><a class="viewcode-back" href="../cli.html#cli.endpoints">[docs]</a><span class="k">def</span> <span class="nf">endpoints</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Print a list of API endpoints.</span>
+
+<span class="sd">    :param api: the API endpoint root</span>
+<span class="sd">    :type api: string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">callapi</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="s1">&#39;get&#39;</span><span class="p">,</span> <span class="s1">&#39;endpoints&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">endpoint</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">endpoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">endpoint</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MainMenu"><a class="viewcode-back" href="../cli.html#cli.MainMenu">[docs]</a><span class="k">class</span> <span class="nc">MainMenu</span><span class="p">(</span><span class="n">cmd</span><span class="o">.</span><span class="n">Cmd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Main menu.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intro</span><span class="o">=</span><span class="s2">&quot;Mini CLI&quot;</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="s2">&quot;&gt;&gt;&gt; &quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize MainMenu object.&quot;&quot;&quot;</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">Cmd</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">intro</span> <span class="o">=</span> <span class="n">intro</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prompt</span> <span class="o">=</span> <span class="n">prompt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc_header</span> <span class="o">=</span> <span class="s2">&quot;Mini CLI (type help &lt;topic&gt;):&quot;</span>
+
+<div class="viewcode-block" id="MainMenu.emptyline"><a class="viewcode-back" href="../cli.html#cli.MainMenu.emptyline">[docs]</a>    <span class="k">def</span> <span class="nf">emptyline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retain prompt if user enters empty line.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="MainMenu.do_api"><a class="viewcode-back" href="../cli.html#cli.MainMenu.do_api">[docs]</a>    <span class="k">def</span> <span class="nf">do_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print API base URL.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;api&#39;)</span>
+<span class="sd">        Making API requests to http://0.0.0.0:8080/api</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Making API requests to &#39;</span> <span class="o">+</span> <span class="n">api</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainMenu.do_clear"><a class="viewcode-back" href="../cli.html#cli.MainMenu.do_clear">[docs]</a>    <span class="k">def</span> <span class="nf">do_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Clear screen.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;clear&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;clear&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainMenu.do_dump"><a class="viewcode-back" href="../cli.html#cli.MainMenu.do_dump">[docs]</a>    <span class="k">def</span> <span class="nf">do_dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Dump database.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;dump&#39;)  # NOQA  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        BEGIN TRANSACTION;</span>
+<span class="sd">        CREATE TABLE Game</span>
+<span class="sd">                            (ID INTEGER PRIMARY KEY,</span>
+<span class="sd">                            kind TEXT NOT NULL,</span>
+<span class="sd">                            name TEXT NOT NULL,</span>
+<span class="sd">                            company TEXT,</span>
+<span class="sd">                            minplayers INT,</span>
+<span class="sd">                            maxplayers INT,</span>
+<span class="sd">                            age INT,</span>
+<span class="sd">                            length INT,</span>
+<span class="sd">                            link TEXT,</span>
+<span class="sd">                            image BLOB,</span>
+<span class="sd">                            notes TEXT);</span>
+<span class="sd">        INSERT INTO &quot;Game&quot; VALUES(1,&#39;game&#39;,&#39;Game1&#39;,&#39;Company1&#39;,1,4,10,30,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="sd">        INSERT INTO &quot;Game&quot; VALUES(2,&#39;game&#39;,&#39;Game2&#39;,&#39;Company1&#39;,1,4,10,30,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="sd">        INSERT INTO &quot;Game&quot; VALUES(3,&#39;game&#39;,&#39;Game3&#39;,&#39;Company1&#39;,1,4,10,30,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="sd">        CREATE TABLE Mini</span>
+<span class="sd">                            (ID INTEGER PRIMARY KEY,</span>
+<span class="sd">                            kind TEXT NOT NULL,</span>
+<span class="sd">                            name TEXT NOT NULL,</span>
+<span class="sd">                            army TEXT,</span>
+<span class="sd">                            type TEXT,</span>
+<span class="sd">                            system TEXT,</span>
+<span class="sd">                            company TEXT,</span>
+<span class="sd">                            quantity INT,</span>
+<span class="sd">                            status TEXT,</span>
+<span class="sd">                            link TEXT,</span>
+<span class="sd">                            image BLOB,</span>
+<span class="sd">                            notes TEXT);</span>
+<span class="sd">        INSERT INTO &quot;Mini&quot; VALUES(1,&#39;mini&#39;,&#39;Mini1&#39;,&#39;Orcs and Goblins&#39;,&#39;core&#39;,&#39;WFB&#39;,&#39;Company1&#39;,10,&#39;painted&#39;,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="sd">        INSERT INTO &quot;Mini&quot; VALUES(2,&#39;mini&#39;,&#39;Mini2&#39;,&#39;Orcs and Goblins&#39;,&#39;core&#39;,&#39;WFB&#39;,&#39;Company1&#39;,10,&#39;painted&#39;,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="sd">        INSERT INTO &quot;Mini&quot; VALUES(3,&#39;mini&#39;,&#39;Mini3&#39;,&#39;Orcs and Goblins&#39;,&#39;core&#39;,&#39;WFB&#39;,&#39;Company1&#39;,10,&#39;painted&#39;,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="sd">        CREATE TABLE Paint</span>
+<span class="sd">                            (ID INTEGER PRIMARY KEY,</span>
+<span class="sd">                            kind TEXT NOT NULL,</span>
+<span class="sd">                            name TEXT NOT NULL,</span>
+<span class="sd">                            color TEXT,</span>
+<span class="sd">                            type TEXT,</span>
+<span class="sd">                            company TEXT,</span>
+<span class="sd">                            quantity INT,</span>
+<span class="sd">                            link TEXT,</span>
+<span class="sd">                            notes TEXT);</span>
+<span class="sd">        INSERT INTO &quot;Paint&quot; VALUES(1,&#39;paint&#39;,&#39;Paint1&#39;,&#39;green&#39;,&#39;matte&#39;,&#39;Company1&#39;,1,&#39;www.example.com&#39;,&#39;Fun!&#39;);</span>
+<span class="sd">        INSERT INTO &quot;Paint&quot; VALUES(2,&#39;paint&#39;,&#39;Paint2&#39;,&#39;green&#39;,&#39;matte&#39;,&#39;Company1&#39;,1,&#39;www.example.com&#39;,&#39;Fun!&#39;);</span>
+<span class="sd">        INSERT INTO &quot;Paint&quot; VALUES(3,&#39;paint&#39;,&#39;Paint3&#39;,&#39;green&#39;,&#39;matte&#39;,&#39;Company1&#39;,1,&#39;www.example.com&#39;,&#39;Fun!&#39;);</span>
+<span class="sd">        COMMIT;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dump</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainMenu.do_endpoints"><a class="viewcode-back" href="../cli.html#cli.MainMenu.do_endpoints">[docs]</a>    <span class="k">def</span> <span class="nf">do_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print endpoints.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;endpoints&#39;)  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        GET /</span>
+<span class="sd">        GET /api/dump</span>
+<span class="sd">        GET /api/endpoints</span>
+<span class="sd">        GET /dump</span>
+<span class="sd">        GET /endpoints</span>
+<span class="sd">        GET /favicon.ico</span>
+<span class="sd">        GET /mini.css</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">endpoints</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MainMenu.do_menu"><a class="viewcode-back" href="../cli.html#cli.MainMenu.do_menu">[docs]</a>    <span class="k">def</span> <span class="nf">do_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print menu options.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;menu&#39;)  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        Dump - Print database dump</span>
+<span class="sd">        Endpoints - print endpoints</span>
+<span class="sd">        Quit</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Dump - Print database dump</span>
+<span class="s2">Endpoints - print endpoints</span>
+<span class="s2">Quit</span>
+<span class="s2">           &quot;&quot;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainMenu.do_quit"><a class="viewcode-back" href="../cli.html#cli.MainMenu.do_quit">[docs]</a>    <span class="k">def</span> <span class="nf">do_quit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Quit program.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;quit&#39;)</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;clear&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">True</span></div>
+
+<div class="viewcode-block" id="MainMenu.do_shell"><a class="viewcode-back" href="../cli.html#cli.MainMenu.do_shell">[docs]</a>    <span class="k">def</span> <span class="nf">do_shell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Run a shell command.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;shell echo &quot;hi&quot;&#39;)</span>
+<span class="sd">        running shell command:  echo &quot;hi&quot;</span>
+<span class="sd">        hi</span>
+<span class="sd">        &lt;BLANKLINE&gt;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;running shell command: &quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">popen</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_output</span> <span class="o">=</span> <span class="n">output</span></div>
+
+    <span class="n">do_EOF</span> <span class="o">=</span> <span class="n">do_quit</span>
+
+<div class="viewcode-block" id="MainMenu.help_api"><a class="viewcode-back" href="../cli.html#cli.MainMenu.help_api">[docs]</a>    <span class="k">def</span> <span class="nf">help_api</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print api command help message.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;help api&#39;)</span>
+<span class="sd">        API URL</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;API URL&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainMenu.help_clear"><a class="viewcode-back" href="../cli.html#cli.MainMenu.help_clear">[docs]</a>    <span class="k">def</span> <span class="nf">help_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print clear command help message.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;help clear&#39;)</span>
+<span class="sd">        Clear screen</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Clear screen&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainMenu.help_dump"><a class="viewcode-back" href="../cli.html#cli.MainMenu.help_dump">[docs]</a>    <span class="k">def</span> <span class="nf">help_dump</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print dump command help message.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;help dump&#39;)</span>
+<span class="sd">        Raw dump of the DB</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Raw dump of the DB&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainMenu.help_endpoints"><a class="viewcode-back" href="../cli.html#cli.MainMenu.help_endpoints">[docs]</a>    <span class="k">def</span> <span class="nf">help_endpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print endpoints command help message.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;help endpoints&#39;)</span>
+<span class="sd">        API endpoints</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;API endpoints&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainMenu.help_menu"><a class="viewcode-back" href="../cli.html#cli.MainMenu.help_menu">[docs]</a>    <span class="k">def</span> <span class="nf">help_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print menu command help message.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;help menu&#39;)</span>
+<span class="sd">        Main menu</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Main menu&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MainMenu.help_quit"><a class="viewcode-back" href="../cli.html#cli.MainMenu.help_quit">[docs]</a>    <span class="k">def</span> <span class="nf">help_quit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Print quit command help message.</span>
+
+<span class="sd">        &gt;&gt;&gt; MainMenu().onecmd(&#39;help quit&#39;)</span>
+<span class="sd">        Quit session</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Quit session&quot;</span><span class="p">)</span></div>
+
+    <span class="n">help_EOF</span> <span class="o">=</span> <span class="n">help_quit</span>
+
+<div class="viewcode-block" id="MainMenu.precmd"><a class="viewcode-back" href="../cli.html#cli.MainMenu.precmd">[docs]</a>    <span class="k">def</span> <span class="nf">precmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute pre-command.&quot;&quot;&quot;</span>
+        <span class="n">newline</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">is_cmt</span> <span class="o">=</span> <span class="n">newline</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_cmt</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">line</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;clear&#39;</span><span class="p">)</span>
+    <span class="n">mmenu</span> <span class="o">=</span> <span class="n">MainMenu</span><span class="p">()</span>
+    <span class="n">mmenu</span><span class="o">.</span><span class="n">cmdloop</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Brian Moss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

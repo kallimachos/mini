@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CLI client &mdash; Mini 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mini 0 documentation" href="index.html"/>
+        <link rel="next" title="GUI client" href="gui.html"/>
+        <link rel="prev" title="REST API" href="api.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mini
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="spec.html">Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">CLI client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#options">Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-cli">Code listing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gestalt.html">Gestalt</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mini</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>CLI client</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/cli.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cli-client">
+<h1>CLI client<a class="headerlink" href="#cli-client" title="Permalink to this headline">¶</a></h1>
+<p>Description of <strong>CLI client</strong>.</p>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<p>Argparse listing.</p>
+</div>
+<div class="section" id="module-cli">
+<span id="code-listing"></span><h2>Code listing<a class="headerlink" href="#module-cli" title="Permalink to this headline">¶</a></h2>
+<p>CLI client for interacting with the mini REST API.</p>
+<dl class="class">
+<dt id="cli.MainMenu">
+<em class="property">class </em><code class="descclassname">cli.</code><code class="descname">MainMenu</code><span class="sig-paren">(</span><em>intro='Mini CLI'</em>, <em>prompt='&gt;&gt;&gt; '</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main menu.</p>
+<dl class="method">
+<dt id="cli.MainMenu.do_EOF">
+<code class="descname">do_EOF</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#cli.MainMenu.do_EOF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quit program.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;quit&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.do_api">
+<code class="descname">do_api</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.do_api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.do_api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print API base URL.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;api&#39;</span><span class="p">)</span>
+<span class="go">Making API requests to http://0.0.0.0:8080/api</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.do_clear">
+<code class="descname">do_clear</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.do_clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.do_clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear screen.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;clear&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.do_dump">
+<code class="descname">do_dump</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.do_dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.do_dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump database.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;dump&#39;</span><span class="p">)</span>  <span class="c1"># NOQA  </span>
+<span class="go">BEGIN TRANSACTION;</span>
+<span class="go">CREATE TABLE Game</span>
+<span class="go">                    (ID INTEGER PRIMARY KEY,</span>
+<span class="go">                    kind TEXT NOT NULL,</span>
+<span class="go">                    name TEXT NOT NULL,</span>
+<span class="go">                    company TEXT,</span>
+<span class="go">                    minplayers INT,</span>
+<span class="go">                    maxplayers INT,</span>
+<span class="go">                    age INT,</span>
+<span class="go">                    length INT,</span>
+<span class="go">                    link TEXT,</span>
+<span class="go">                    image BLOB,</span>
+<span class="go">                    notes TEXT);</span>
+<span class="go">INSERT INTO &quot;Game&quot; VALUES(1,&#39;game&#39;,&#39;Game1&#39;,&#39;Company1&#39;,1,4,10,30,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="go">INSERT INTO &quot;Game&quot; VALUES(2,&#39;game&#39;,&#39;Game2&#39;,&#39;Company1&#39;,1,4,10,30,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="go">INSERT INTO &quot;Game&quot; VALUES(3,&#39;game&#39;,&#39;Game3&#39;,&#39;Company1&#39;,1,4,10,30,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="go">CREATE TABLE Mini</span>
+<span class="go">                    (ID INTEGER PRIMARY KEY,</span>
+<span class="go">                    kind TEXT NOT NULL,</span>
+<span class="go">                    name TEXT NOT NULL,</span>
+<span class="go">                    army TEXT,</span>
+<span class="go">                    type TEXT,</span>
+<span class="go">                    system TEXT,</span>
+<span class="go">                    company TEXT,</span>
+<span class="go">                    quantity INT,</span>
+<span class="go">                    status TEXT,</span>
+<span class="go">                    link TEXT,</span>
+<span class="go">                    image BLOB,</span>
+<span class="go">                    notes TEXT);</span>
+<span class="go">INSERT INTO &quot;Mini&quot; VALUES(1,&#39;mini&#39;,&#39;Mini1&#39;,&#39;Orcs and Goblins&#39;,&#39;core&#39;,&#39;WFB&#39;,&#39;Company1&#39;,10,&#39;painted&#39;,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="go">INSERT INTO &quot;Mini&quot; VALUES(2,&#39;mini&#39;,&#39;Mini2&#39;,&#39;Orcs and Goblins&#39;,&#39;core&#39;,&#39;WFB&#39;,&#39;Company1&#39;,10,&#39;painted&#39;,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="go">INSERT INTO &quot;Mini&quot; VALUES(3,&#39;mini&#39;,&#39;Mini3&#39;,&#39;Orcs and Goblins&#39;,&#39;core&#39;,&#39;WFB&#39;,&#39;Company1&#39;,10,&#39;painted&#39;,&#39;www.example.com&#39;,NULL,&#39;Fun!&#39;);</span>
+<span class="go">CREATE TABLE Paint</span>
+<span class="go">                    (ID INTEGER PRIMARY KEY,</span>
+<span class="go">                    kind TEXT NOT NULL,</span>
+<span class="go">                    name TEXT NOT NULL,</span>
+<span class="go">                    color TEXT,</span>
+<span class="go">                    type TEXT,</span>
+<span class="go">                    company TEXT,</span>
+<span class="go">                    quantity INT,</span>
+<span class="go">                    link TEXT,</span>
+<span class="go">                    notes TEXT);</span>
+<span class="go">INSERT INTO &quot;Paint&quot; VALUES(1,&#39;paint&#39;,&#39;Paint1&#39;,&#39;green&#39;,&#39;matte&#39;,&#39;Company1&#39;,1,&#39;www.example.com&#39;,&#39;Fun!&#39;);</span>
+<span class="go">INSERT INTO &quot;Paint&quot; VALUES(2,&#39;paint&#39;,&#39;Paint2&#39;,&#39;green&#39;,&#39;matte&#39;,&#39;Company1&#39;,1,&#39;www.example.com&#39;,&#39;Fun!&#39;);</span>
+<span class="go">INSERT INTO &quot;Paint&quot; VALUES(3,&#39;paint&#39;,&#39;Paint3&#39;,&#39;green&#39;,&#39;matte&#39;,&#39;Company1&#39;,1,&#39;www.example.com&#39;,&#39;Fun!&#39;);</span>
+<span class="go">COMMIT;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.do_endpoints">
+<code class="descname">do_endpoints</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.do_endpoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.do_endpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print endpoints.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;endpoints&#39;</span><span class="p">)</span>  
+<span class="go">GET /</span>
+<span class="go">GET /api/dump</span>
+<span class="go">GET /api/endpoints</span>
+<span class="go">GET /dump</span>
+<span class="go">GET /endpoints</span>
+<span class="go">GET /favicon.ico</span>
+<span class="go">GET /mini.css</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.do_menu">
+<code class="descname">do_menu</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.do_menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.do_menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print menu options.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;menu&#39;</span><span class="p">)</span>  
+<span class="go">Dump - Print database dump</span>
+<span class="go">Endpoints - print endpoints</span>
+<span class="go">Quit</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.do_quit">
+<code class="descname">do_quit</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.do_quit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.do_quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quit program.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;quit&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.do_shell">
+<code class="descname">do_shell</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.do_shell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.do_shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a shell command.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;shell echo &quot;hi&quot;&#39;</span><span class="p">)</span>
+<span class="go">running shell command:  echo &quot;hi&quot;</span>
+<span class="go">hi</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.emptyline">
+<code class="descname">emptyline</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.emptyline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.emptyline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retain prompt if user enters empty line.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.help_EOF">
+<code class="descname">help_EOF</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cli.MainMenu.help_EOF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print quit command help message.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;help quit&#39;</span><span class="p">)</span>
+<span class="go">Quit session</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.help_api">
+<code class="descname">help_api</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.help_api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.help_api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print api command help message.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;help api&#39;</span><span class="p">)</span>
+<span class="go">API URL</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.help_clear">
+<code class="descname">help_clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.help_clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.help_clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print clear command help message.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;help clear&#39;</span><span class="p">)</span>
+<span class="go">Clear screen</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.help_dump">
+<code class="descname">help_dump</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.help_dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.help_dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print dump command help message.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;help dump&#39;</span><span class="p">)</span>
+<span class="go">Raw dump of the DB</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.help_endpoints">
+<code class="descname">help_endpoints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.help_endpoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.help_endpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print endpoints command help message.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;help endpoints&#39;</span><span class="p">)</span>
+<span class="go">API endpoints</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.help_menu">
+<code class="descname">help_menu</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.help_menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.help_menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print menu command help message.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;help menu&#39;</span><span class="p">)</span>
+<span class="go">Main menu</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.help_quit">
+<code class="descname">help_quit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.help_quit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.help_quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print quit command help message.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">MainMenu</span><span class="p">()</span><span class="o">.</span><span class="n">onecmd</span><span class="p">(</span><span class="s1">&#39;help quit&#39;</span><span class="p">)</span>
+<span class="go">Quit session</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cli.MainMenu.precmd">
+<code class="descname">precmd</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#MainMenu.precmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.MainMenu.precmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute pre-command.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="cli.callapi">
+<code class="descclassname">cli.</code><code class="descname">callapi</code><span class="sig-paren">(</span><em>api</em>, <em>method</em>, <em>call</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#callapi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.callapi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the mini REST API.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>api</strong> (<em>string</em>) &#8211; the API endpoint root</li>
+<li><strong>call</strong> &#8211; the function call</li>
+<li><strong>method</strong> &#8211; the HTTP method</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">API response</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cli.dump">
+<code class="descclassname">cli.</code><code class="descname">dump</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a raw dump of the DB.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>api</strong> (<em>string</em>) &#8211; the API endpoint root</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cli.endpoints">
+<code class="descclassname">cli.</code><code class="descname">endpoints</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cli.html#endpoints"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cli.endpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a list of API endpoints.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>api</strong> (<em>string</em>) &#8211; the API endpoint root</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gui.html" class="btn btn-neutral float-right" title="GUI client" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="api.html" class="btn btn-neutral" title="REST API" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Brian Moss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

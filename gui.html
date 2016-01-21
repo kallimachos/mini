@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to Mini’s documentation! &mdash; Mini 0 documentation</title>
+  <title>GUI client &mdash; Mini 0 documentation</title>
   
 
   
@@ -30,8 +30,9 @@
   
 
   
-    <link rel="top" title="Mini 0 documentation" href="#"/>
-        <link rel="next" title="Specification" href="spec.html"/> 
+    <link rel="top" title="Mini 0 documentation" href="index.html"/>
+        <link rel="next" title="Controller" href="controller.html"/>
+        <link rel="prev" title="CLI client" href="cli.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -49,7 +50,7 @@
           
 
           
-            <a href="#" class="icon icon-home"> Mini
+            <a href="index.html" class="icon icon-home"> Mini
           
 
           
@@ -80,11 +81,15 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="spec.html">Specification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">CLI client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI client</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">GUI client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#options">Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-gui">Code listing</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gestalt.html">Gestalt</a></li>
@@ -101,7 +106,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="#">Mini</a>
+        <a href="index.html">Mini</a>
       </nav>
 
 
@@ -116,13 +121,13 @@
 
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="#">Docs</a> &raquo;</li>
+    <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Welcome to Mini&#8217;s documentation!</li>
+    <li>GUI client</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/index.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/gui.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -132,55 +137,55 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-mini-s-documentation">
-<h1>Welcome to Mini&#8217;s documentation!<a class="headerlink" href="#welcome-to-mini-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="spec.html">Specification</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#language">Language</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#testing-logging-and-configuration">Testing, logging, and configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#version-control-and-ci">Version control and CI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#documentation">Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#hosting">Hosting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#model">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#view">View</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#controller">Controller</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spec.html#to-do">To Do</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">REST API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cli.html">CLI client</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="cli.html#options">Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cli.html#module-cli">Code listing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI client</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gui.html#options">Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gui.html#module-gui">Code listing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="controller.html#module-controller">Code listing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="model.html#database-layout">Database layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="model.html#module-model">Code listing</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="gestalt.html">Gestalt</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gestalt.html#module-gestalt">Code listing</a></li>
-</ul>
-</li>
-</ul>
+  <div class="section" id="gui-client">
+<h1>GUI client<a class="headerlink" href="#gui-client" title="Permalink to this headline">¶</a></h1>
+<p>Description of <strong>GUI client</strong>.</p>
+<div class="section" id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
+<p>GUI help listing.</p>
 </div>
-<div class="section" id="index">
-<h2>Index<a class="headerlink" href="#index" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
+<div class="section" id="module-gui">
+<span id="code-listing"></span><h2>Code listing<a class="headerlink" href="#module-gui" title="Permalink to this headline">¶</a></h2>
+<p>GUI client for interacting with the mini REST API.</p>
+<dl class="function">
+<dt id="gui.callapi">
+<code class="descclassname">gui.</code><code class="descname">callapi</code><span class="sig-paren">(</span><em>api</em>, <em>method</em>, <em>call</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gui.html#callapi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gui.callapi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the mini REST API.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>api</strong> (<em>string</em>) &#8211; the API endpoint root</li>
+<li><strong>call</strong> &#8211; the function call</li>
+<li><strong>method</strong> &#8211; the HTTP method</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">API response</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">JSON</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="gui.dump">
+<code class="descclassname">gui.</code><code class="descname">dump</code><span class="sig-paren">(</span><em>api</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gui.html#dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gui.dump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a raw dump of the DB.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>api</strong> (<em>string</em>) &#8211; the API endpoint root</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 </div>
 
@@ -191,8 +196,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="spec.html" class="btn btn-neutral float-right" title="Specification" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="controller.html" class="btn btn-neutral float-right" title="Controller" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="cli.html" class="btn btn-neutral" title="CLI client" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

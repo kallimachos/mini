@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>model &mdash; Mini 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mini 0 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Mini
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../spec.html">Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gui.html">GUI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gestalt.html">Gestalt</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Mini</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>model</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for model</h1><div class="highlight"><pre>
+<span class="ch">#!/bin/python3</span>
+<span class="sd">&quot;&quot;&quot;Model for mini.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span> <span class="kn">as</span> <span class="nn">sql</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span>
+
+<span class="kn">from</span> <span class="nn">gestalt</span> <span class="kn">import</span> <span class="n">LoadConfig</span>
+
+<span class="n">settings</span> <span class="o">=</span> <span class="n">LoadConfig</span><span class="p">()</span>
+<span class="n">database</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">database</span>
+
+
+<div class="viewcode-block" id="add"><a class="viewcode-back" href="../model.html#model.add">[docs]</a><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add an item to the DB.&quot;&quot;&quot;</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;game&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT INTO Game VALUES (:ID, :kind, :name, </span><span class="se">\</span>
+<span class="s1">                        :company,:minPlayers, :maxPlayers, :age, :length, </span><span class="se">\</span>
+<span class="s1">                        :link, :image, :notes)&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;mini&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT INTO Mini VALUES (:ID, :kind, :name, :army, </span><span class="se">\</span>
+<span class="s1">                        :type, :system, :company, :quantity, :status, :link, </span><span class="se">\</span>
+<span class="s1">                        :image, :notes)&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;paint&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;INSERT INTO Paint VALUES (:ID, :kind, :name, :color, </span><span class="se">\</span>
+<span class="s1">                        :type, :company, :quantity, :link, :notes)&#39;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">rowcount</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="createdb"><a class="viewcode-back" href="../model.html#model.createdb">[docs]</a><span class="k">def</span> <span class="nf">createdb</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create DB and initialize tables.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="n">database</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">con</span><span class="p">:</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;CREATE TABLE Game</span>
+<span class="s2">                        (ID INTEGER PRIMARY KEY,</span>
+<span class="s2">                        kind TEXT NOT NULL,</span>
+<span class="s2">                        name TEXT NOT NULL,</span>
+<span class="s2">                        company TEXT,</span>
+<span class="s2">                        minplayers INT,</span>
+<span class="s2">                        maxplayers INT,</span>
+<span class="s2">                        age INT,</span>
+<span class="s2">                        length INT,</span>
+<span class="s2">                        link TEXT,</span>
+<span class="s2">                        image BLOB,</span>
+<span class="s2">                        notes TEXT)&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;CREATE TABLE Mini</span>
+<span class="s2">                        (ID INTEGER PRIMARY KEY,</span>
+<span class="s2">                        kind TEXT NOT NULL,</span>
+<span class="s2">                        name TEXT NOT NULL,</span>
+<span class="s2">                        army TEXT,</span>
+<span class="s2">                        type TEXT,</span>
+<span class="s2">                        system TEXT,</span>
+<span class="s2">                        company TEXT,</span>
+<span class="s2">                        quantity INT,</span>
+<span class="s2">                        status TEXT,</span>
+<span class="s2">                        link TEXT,</span>
+<span class="s2">                        image BLOB,</span>
+<span class="s2">                        notes TEXT)&quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;CREATE TABLE Paint</span>
+<span class="s2">                        (ID INTEGER PRIMARY KEY,</span>
+<span class="s2">                        kind TEXT NOT NULL,</span>
+<span class="s2">                        name TEXT NOT NULL,</span>
+<span class="s2">                        color TEXT,</span>
+<span class="s2">                        type TEXT,</span>
+<span class="s2">                        company TEXT,</span>
+<span class="s2">                        quantity INT,</span>
+<span class="s2">                        link TEXT,</span>
+<span class="s2">                        notes TEXT)&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="delete"><a class="viewcode-back" href="../model.html#model.delete">[docs]</a><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Delete an item from the DB.&quot;&quot;&quot;</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span>
+    <span class="n">entry</span> <span class="o">=</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],)</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;game&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM Game WHERE name = ?&quot;</span><span class="p">,</span> <span class="n">entry</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;mini&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM Mini WHERE name = ?&quot;</span><span class="p">,</span> <span class="n">entry</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;paint&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DELETE FROM Paint WHERE name = ?&quot;</span><span class="p">,</span> <span class="n">entry</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">rowcount</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="dump"><a class="viewcode-back" href="../model.html#model.dump">[docs]</a><span class="k">def</span> <span class="nf">dump</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a raw dump of the DB.</span>
+
+<span class="sd">    :returns: a raw dump of the DB</span>
+<span class="sd">    :rtype: JSON</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">con</span><span class="o">.</span><span class="n">iterdump</span><span class="p">():</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="edit"><a class="viewcode-back" href="../model.html#model.edit">[docs]</a><span class="k">def</span> <span class="nf">edit</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Edit an item in the DB.&quot;&quot;&quot;</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;game&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;UPDATE Game SET name==:name, company==:company, </span><span class="se">\</span>
+<span class="s2">                        minPlayers==:minPlayers, maxPlayers==:maxPlayers, </span><span class="se">\</span>
+<span class="s2">                        age==:age, length==:length, link==:link, </span><span class="se">\</span>
+<span class="s2">                        image==:image, notes==:notes WHERE name==:name&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;mini&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;UPDATE Mini SET name==:name, army==:army, </span><span class="se">\</span>
+<span class="s2">                        type==:type, system==:system, company==:company, </span><span class="se">\</span>
+<span class="s2">                        quantity==:quantity, status==:status, link==:link, </span><span class="se">\</span>
+<span class="s2">                        image==:image, notes==:notes WHERE name==:name&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;paint&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;UPDATE Paint SET name==:name, color==:color, </span><span class="se">\</span>
+<span class="s2">                        type==:type, company==:company, quantity==:quantity, </span><span class="se">\</span>
+<span class="s2">                        link==:link, notes==:notes WHERE name==:name&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">rowcount</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sqlite_version"><a class="viewcode-back" href="../model.html#model.sqlite_version">[docs]</a><span class="k">def</span> <span class="nf">sqlite_version</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return the SQLite version of a database.&quot;&quot;&quot;</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s1">&#39;SELECT SQLITE_VERSION()&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="s1">&#39;SQLite version: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="view"><a class="viewcode-back" href="../model.html#model.view">[docs]</a><span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;View an item in the DB.&quot;&quot;&quot;</span>
+    <span class="n">item</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;kind&#39;</span><span class="p">]</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">con</span><span class="p">:</span>
+        <span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;game&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM Game WHERE name==:name&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;mini&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM Mini WHERE name==:name&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;paint&#39;</span><span class="p">:</span>
+            <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM Paint WHERE name==:name&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">())</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+<span class="c1"># Specify database file and initialize DB if it does not already exist</span>
+<span class="n">createdb</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="c1"># These statements are for testing only</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">sqlite_version</span><span class="p">())</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">dump</span><span class="p">()):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Brian Moss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

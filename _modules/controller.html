@@ -1,0 +1,315 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>controller &mdash; Mini 0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mini 0 documentation" href="../index.html"/>
+        <link rel="up" title="Module code" href="index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Mini
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../spec.html">Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">REST API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">CLI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gui.html">GUI client</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gestalt.html">Gestalt</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Mini</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      
+    <li>controller</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for controller</h1><div class="highlight"><pre>
+<span class="ch">#!/bin/python3</span>
+<span class="sd">&quot;&quot;&quot;Controller logic for mini.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+
+<span class="kn">import</span> <span class="nn">gestalt</span>
+<span class="kn">import</span> <span class="nn">model</span>
+<span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="p">(</span><span class="n">TEMPLATE_PATH</span><span class="p">,</span> <span class="n">Bottle</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">run</span><span class="p">,</span> <span class="n">static_file</span><span class="p">,</span>
+                    <span class="n">template</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Classic HTTP methods for REST APIs.</span>
+
+<span class="sd">GET     Obtain information about a resource</span>
+<span class="sd">  http://example.com/api/orders  (retrieve order list)</span>
+
+<span class="sd">GET	    Obtain information about a resource</span>
+<span class="sd">  http://example.com/api/orders/123  (retrieve order #123)</span>
+
+<span class="sd">POST	Create a new resource</span>
+<span class="sd">  http://example.com/api/orders</span>
+<span class="sd">  (create a new order, from data provided with the request)</span>
+
+<span class="sd">PUT	    Update a resource</span>
+<span class="sd">  http://example.com/api/orders/123</span>
+<span class="sd">  (update order #123, from data provided with the request)</span>
+
+<span class="sd">DELETE  Delete a resource</span>
+<span class="sd">  http://example.com/api/orders/123  (delete order #123)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Bottle</span><span class="p">()</span>
+
+<span class="c1"># append to bottle.TEMPLATE_PATH so views are correctly found by pytest</span>
+<span class="n">TEMPLATE_PATH</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;mini/views/&#39;</span><span class="p">)</span>
+
+<span class="c1"># set static_path relative to this file</span>
+<span class="n">static_path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s1">&#39;static&#39;</span><span class="p">))</span>
+
+<span class="c1"># set debug(True) for testing</span>
+<span class="n">debug</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="index"><a class="viewcode-back" href="../controller.html#controller.index">[docs]</a><span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return index template.&quot;&quot;&quot;</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">template</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">))</span></div>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/favicon.ico&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="get_favicon"><a class="viewcode-back" href="../controller.html#controller.get_favicon">[docs]</a><span class="k">def</span> <span class="nf">get_favicon</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return the favicon.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">static_file</span><span class="p">(</span><span class="s1">&#39;favicon.ico&#39;</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="n">static_path</span><span class="p">)</span></div>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/mini.css&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="get_css"><a class="viewcode-back" href="../controller.html#controller.get_css">[docs]</a><span class="k">def</span> <span class="nf">get_css</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return the stylesheet.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">static_file</span><span class="p">(</span><span class="s1">&#39;mini.css&#39;</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="n">static_path</span><span class="p">)</span></div>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/dump&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/api/dump&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="dump"><a class="viewcode-back" href="../controller.html#controller.dump">[docs]</a><span class="k">def</span> <span class="nf">dump</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a raw dump of the DB.</span>
+
+<span class="sd">    :returns: a raw dump of the DB</span>
+<span class="sd">    :rtype: JSON</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="s1">&#39;/dump&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">template</span><span class="p">(</span><span class="s1">&#39;dump&#39;</span><span class="p">,</span> <span class="n">dump</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">dump</span><span class="p">()))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">dump</span><span class="p">())</span></div>
+
+
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/endpoints&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+<span class="nd">@app.route</span><span class="p">(</span><span class="s1">&#39;/api/endpoints&#39;</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;GET&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="endpoints"><a class="viewcode-back" href="../controller.html#controller.endpoints">[docs]</a><span class="k">def</span> <span class="nf">endpoints</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a list of API endpoints.</span>
+
+<span class="sd">    :returns: a list of API endpoints</span>
+<span class="sd">    :rtype: JSON array</span>
+<span class="sd">    :example:</span>
+
+<span class="sd">        &gt;&gt;&gt; endpoints()  # doctest: +NORMALIZE_WHITESPACE</span>
+<span class="sd">        &#39;[[&quot;GET&quot;, &quot;/&quot;], [&quot;GET&quot;, &quot;/api/dump&quot;], [&quot;GET&quot;, &quot;/api/endpoints&quot;],</span>
+<span class="sd">        [&quot;GET&quot;, &quot;/dump&quot;], [&quot;GET&quot;, &quot;/endpoints&quot;], [&quot;GET&quot;, &quot;/favicon.ico&quot;],</span>
+<span class="sd">        [&quot;GET&quot;, &quot;/mini.css&quot;]]&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">routes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">routes</span><span class="p">:</span>
+        <span class="n">endpoint</span> <span class="o">=</span> <span class="p">[</span><span class="n">route</span><span class="o">.</span><span class="n">method</span><span class="p">,</span> <span class="n">route</span><span class="o">.</span><span class="n">rule</span><span class="p">]</span>
+        <span class="n">routes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+    <span class="n">routes</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">routes</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="s1">&#39;/endpoints&#39;</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">template</span><span class="p">(</span><span class="s1">&#39;endpoints&#39;</span><span class="p">,</span> <span class="n">endpoints</span><span class="o">=</span><span class="n">resp</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span></div>
+
+
+<span class="nd">@app.error</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+<div class="viewcode-block" id="missing"><a class="viewcode-back" href="../controller.html#controller.missing">[docs]</a><span class="k">def</span> <span class="nf">missing</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return 404 template.&quot;&quot;&quot;</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">template</span><span class="p">(</span><span class="s1">&#39;404&#39;</span><span class="p">))</span></div>
+
+
+<span class="nd">@app.error</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+<div class="viewcode-block" id="serverfault"><a class="viewcode-back" href="../controller.html#controller.serverfault">[docs]</a><span class="k">def</span> <span class="nf">serverfault</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return 500 template.&quot;&quot;&quot;</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">template</span><span class="p">(</span><span class="s1">&#39;500&#39;</span><span class="p">))</span></div>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">gestalt</span><span class="o">.</span><span class="n">LoadConfig</span><span class="p">()</span>
+    <span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">reloader</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Brian Moss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
