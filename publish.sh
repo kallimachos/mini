@@ -19,4 +19,5 @@ git commit -m "Generated gh-pages for `git log master -1 --pretty=short --abbrev
 git push origin gh-pages
 git checkout master
 echo
-echo "Docs published to http://kallimachos.github.io/mini/"
+tput setaf 2; echo "Docs published to http://kallimachos.github.io/mini/"
+tput sgr0
