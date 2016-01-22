@@ -6,7 +6,7 @@ CODEDIR=mini
 
 cd $GITDIR
 git checkout gh-pages
-find ./* -maxdepth 1 -not -name ".*" -delete
+find ./* -not -name ".*" -delete
 git checkout master $DOCDIR $CODEDIR
 git reset HEAD
 cd docs
