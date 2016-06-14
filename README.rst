@@ -18,11 +18,10 @@ web-based REST API.
 TOC
 ~~~
 
-.. toctree::
-   :maxdepth: 1
-   
-   Section
+section_
 
+
+.. _section:
 
 Section
 ~~~~~~~
