@@ -162,6 +162,7 @@ def view(data):
         resp = json.dumps(cur.fetchone())
         return(resp)
 
+
 # Specify database file and initialize DB if it does not already exist
 createdb()
 

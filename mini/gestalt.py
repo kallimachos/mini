@@ -1,12 +1,12 @@
 #!/bin/python3
 """Utility functions."""
 
-import configparser
 import json
 import logging
 import sqlite3 as sql
 from os import path, remove
 
+import configparser
 import requests
 
 
